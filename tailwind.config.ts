@@ -25,7 +25,7 @@ export default {
         foreground: "hsl(var(--foreground))",
         // Chagua Brand Colors
         'chagua-black': "hsl(var(--chagua-black))",
-        'chagua-yellow': "hsl(var(--chagua-yellow))",
+        'chagua-orange': "hsl(var(--chagua-orange))",
         'chagua-white': "hsl(var(--chagua-white))",
         primary: {
           DEFAULT: "hsl(var(--primary))",

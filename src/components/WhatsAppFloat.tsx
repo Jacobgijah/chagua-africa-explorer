@@ -33,7 +33,7 @@ const WhatsAppFloat = () => {
       </button>
       
       {/* Notification Badge */}
-      <div className="absolute -top-2 -left-2 bg-chagua-yellow text-black text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center animate-bounce">
+      <div className="absolute -top-2 -left-2 bg-chagua-orange text-black text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center animate-bounce">
         1
       </div>
     </div>

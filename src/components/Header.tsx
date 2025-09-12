@@ -15,7 +15,7 @@ const Header = () => {
           <div className="flex items-center">
             <a href="/" className="flex items-center space-x-2">
               <div className="w-10 h-10 bg-chagua-black rounded-full flex items-center justify-center">
-                <span className="text-chagua-yellow font-bold text-xl">C</span>
+                <span className="text-chagua-orange font-bold text-xl">C</span>
               </div>
               <div className="hidden sm:block">
                 <h1 className="font-poppins font-bold text-lg text-chagua-black">
@@ -28,33 +28,33 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <a href="/tours" className="text-foreground hover:text-chagua-yellow transition-colors font-medium">
+            <a href="/tours" className="text-foreground hover:text-chagua-orange transition-colors font-medium">
               Tours
             </a>
-            <a href="/destinations" className="text-foreground hover:text-chagua-yellow transition-colors font-medium">
+            <a href="/destinations" className="text-foreground hover:text-chagua-orange transition-colors font-medium">
               Destinations
             </a>
-            <a href="/activities" className="text-foreground hover:text-chagua-yellow transition-colors font-medium">
+            <a href="/activities" className="text-foreground hover:text-chagua-orange transition-colors font-medium">
               Activities
             </a>
-            <a href="/travel-info" className="text-foreground hover:text-chagua-yellow transition-colors font-medium">
+            <a href="/travel-info" className="text-foreground hover:text-chagua-orange transition-colors font-medium">
               Travel Info
             </a>
-            <a href="/about" className="text-foreground hover:text-chagua-yellow transition-colors font-medium">
+            <a href="/about" className="text-foreground hover:text-chagua-orange transition-colors font-medium">
               About
             </a>
-            <a href="/blog" className="text-foreground hover:text-chagua-yellow transition-colors font-medium">
+            <a href="/blog" className="text-foreground hover:text-chagua-orange transition-colors font-medium">
               Blog
             </a>
           </nav>
 
           {/* Desktop CTAs */}
           <div className="hidden md:flex items-center space-x-4">
-            <Button variant="ghost" size="sm" className="text-foreground hover:text-chagua-yellow">
+            <Button variant="ghost" size="sm" className="text-foreground hover:text-chagua-orange">
               <Phone className="w-4 h-4 mr-2" />
               Call Now
             </Button>
-            <Button className="bg-chagua-yellow text-black hover:bg-chagua-yellow/90 font-semibold">
+            <Button className="bg-chagua-orange text-black hover:bg-chagua-orange/90 font-semibold">
               Request Quote
             </Button>
           </div>
@@ -76,30 +76,30 @@ const Header = () => {
         <div className="md:hidden border-t border-border bg-white">
           <div className="container mx-auto px-4 py-4">
             <nav className="flex flex-col space-y-4">
-              <a href="/tours" className="text-foreground hover:text-chagua-yellow transition-colors font-medium">
+              <a href="/tours" className="text-foreground hover:text-chagua-orange transition-colors font-medium">
                 Tours
               </a>
-              <a href="/destinations" className="text-foreground hover:text-chagua-yellow transition-colors font-medium">
+              <a href="/destinations" className="text-foreground hover:text-chagua-orange transition-colors font-medium">
                 Destinations
               </a>
-              <a href="/activities" className="text-foreground hover:text-chagua-yellow transition-colors font-medium">
+              <a href="/activities" className="text-foreground hover:text-chagua-orange transition-colors font-medium">
                 Activities
               </a>
-              <a href="/travel-info" className="text-foreground hover:text-chagua-yellow transition-colors font-medium">
+              <a href="/travel-info" className="text-foreground hover:text-chagua-orange transition-colors font-medium">
                 Travel Info
               </a>
-              <a href="/about" className="text-foreground hover:text-chagua-yellow transition-colors font-medium">
+              <a href="/about" className="text-foreground hover:text-chagua-orange transition-colors font-medium">
                 About
               </a>
-              <a href="/blog" className="text-foreground hover:text-chagua-yellow transition-colors font-medium">
+              <a href="/blog" className="text-foreground hover:text-chagua-orange transition-colors font-medium">
                 Blog
               </a>
               <div className="flex flex-col space-y-2 pt-4 border-t border-border">
-                <Button variant="ghost" size="sm" className="justify-start text-foreground hover:text-chagua-yellow">
+                <Button variant="ghost" size="sm" className="justify-start text-foreground hover:text-chagua-orange">
                   <Phone className="w-4 h-4 mr-2" />
                   Call Now
                 </Button>
-                <Button className="bg-chagua-yellow text-black hover:bg-chagua-yellow/90 font-semibold">
+                <Button className="bg-chagua-orange text-black hover:bg-chagua-orange/90 font-semibold">
                   Request Quote
                 </Button>
               </div>

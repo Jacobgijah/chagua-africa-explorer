@@ -23,7 +23,7 @@ const Hero = () => {
           <div className="animate-fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
               Experience the
-              <span className="text-chagua-yellow block mt-2">
+              <span className="text-chagua-orange block mt-2">
                 Real Tanzania
               </span>
             </h1>
@@ -85,7 +85,7 @@ const Hero = () => {
               {/* CTA Button */}
               <div className="space-y-2">
                 <label className="text-sm font-medium text-transparent">Action</label>
-                <Button className="w-full bg-chagua-yellow text-black hover:bg-chagua-yellow/90 font-semibold h-10">
+                <Button className="w-full bg-chagua-orange text-black hover:bg-chagua-orange/90 font-semibold h-10">
                   Get Free Quote
                 </Button>
               </div>
@@ -94,7 +94,7 @@ const Hero = () => {
             {/* Trust Badges */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="trust-badge">
-                <div className="w-8 h-8 bg-chagua-yellow rounded-full flex items-center justify-center">
+                <div className="w-8 h-8 bg-chagua-orange rounded-full flex items-center justify-center">
                   <span className="text-xs font-bold">✓</span>
                 </div>
                 <div>
@@ -104,7 +104,7 @@ const Hero = () => {
               </div>
               
               <div className="trust-badge">
-                <div className="w-8 h-8 bg-chagua-yellow rounded-full flex items-center justify-center">
+                <div className="w-8 h-8 bg-chagua-orange rounded-full flex items-center justify-center">
                   <span className="text-xs font-bold">★</span>
                 </div>
                 <div>
@@ -114,7 +114,7 @@ const Hero = () => {
               </div>
               
               <div className="trust-badge">
-                <div className="w-8 h-8 bg-chagua-yellow rounded-full flex items-center justify-center">
+                <div className="w-8 h-8 bg-chagua-orange rounded-full flex items-center justify-center">
                   <span className="text-xs font-bold">$</span>
                 </div>
                 <div>
@@ -124,7 +124,7 @@ const Hero = () => {
               </div>
               
               <div className="trust-badge">
-                <div className="w-8 h-8 bg-chagua-yellow rounded-full flex items-center justify-center">
+                <div className="w-8 h-8 bg-chagua-orange rounded-full flex items-center justify-center">
                   <span className="text-xs font-bold">🦁</span>
                 </div>
                 <div>

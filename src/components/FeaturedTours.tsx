@@ -74,7 +74,7 @@ const FeaturedTours = () => {
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Featured <span className="text-chagua-yellow">Safari Experiences</span>
+            Featured <span className="text-chagua-orange">Safari Experiences</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Discover our most popular and carefully crafted safari adventures, 
@@ -96,21 +96,21 @@ const FeaturedTours = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                 
                 {/* Duration Badge */}
-                <div className="absolute top-4 left-4 bg-chagua-yellow text-black px-3 py-1 rounded-full text-sm font-semibold">
+                <div className="absolute top-4 left-4 bg-chagua-orange text-black px-3 py-1 rounded-full text-sm font-semibold">
                   <Clock className="inline w-4 h-4 mr-1" />
                   {tour.duration}
                 </div>
                 
                 {/* Rating Badge */}
                 <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-full text-sm font-semibold flex items-center">
-                  <Star className="w-4 h-4 text-chagua-yellow fill-current mr-1" />
+                  <Star className="w-4 h-4 text-chagua-orange fill-current mr-1" />
                   {tour.rating}
                 </div>
               </div>
 
               {/* Content */}
               <div className="p-6">
-                <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-chagua-yellow transition-colors">
+                <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-chagua-orange transition-colors">
                   {tour.title}
                 </h3>
                 
@@ -129,7 +129,7 @@ const FeaturedTours = () => {
                 {/* Price and Reviews */}
                 <div className="flex items-center justify-between mb-4">
                   <div>
-                    <p className="text-2xl font-bold text-chagua-yellow">{tour.price}</p>
+                    <p className="text-2xl font-bold text-chagua-orange">{tour.price}</p>
                     <p className="text-sm text-muted-foreground">per person</p>
                   </div>
                   <div className="text-right">
@@ -148,7 +148,7 @@ const FeaturedTours = () => {
 
         {/* View All Button */}
         <div className="text-center mt-12">
-          <Button className="bg-chagua-yellow text-black hover:bg-chagua-yellow/90 font-semibold px-8 py-3">
+          <Button className="bg-chagua-orange text-black hover:bg-chagua-orange/90 font-semibold px-8 py-3">
             View All Tours
           </Button>
         </div>

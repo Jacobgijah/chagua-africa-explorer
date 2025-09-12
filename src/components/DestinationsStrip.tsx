@@ -42,7 +42,7 @@ const DestinationsStrip = () => {
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Explore Tanzania's <span className="text-chagua-yellow">Top Destinations</span>
+            Explore Tanzania's <span className="text-chagua-orange">Top Destinations</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             From pristine beaches to towering mountains, discover the diverse landscapes 
@@ -71,11 +71,11 @@ const DestinationsStrip = () => {
                     <ArrowRight className="w-6 h-6 transform transition-transform group-hover:translate-x-1" />
                   </div>
                   <p className="text-white/90 mb-2">{destination.description}</p>
-                  <p className="text-chagua-yellow font-semibold text-sm">{destination.tours}</p>
+                  <p className="text-chagua-orange font-semibold text-sm">{destination.tours}</p>
                 </div>
                 
                 {/* Hover Effect */}
-                <div className="absolute inset-0 bg-chagua-yellow/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 bg-chagua-orange/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </div>
             </div>
           ))}
@@ -87,7 +87,7 @@ const DestinationsStrip = () => {
             Ready to explore these incredible destinations?
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-chagua-yellow text-black hover:bg-chagua-yellow/90 px-8 py-3 rounded-lg font-semibold transition-colors">
+            <button className="bg-chagua-orange text-black hover:bg-chagua-orange/90 px-8 py-3 rounded-lg font-semibold transition-colors">
               Plan Your Safari
             </button>
             <button className="border-2 border-chagua-black text-chagua-black hover:bg-chagua-black hover:text-white px-8 py-3 rounded-lg font-semibold transition-colors">
