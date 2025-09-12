@@ -138,8 +138,13 @@ const FeaturedTours = () => {
                 </div>
                 
                 {/* CTA */}
-                <Button className="w-full bg-chagua-black text-white hover:bg-chagua-black/90">
-                  View Details
+                <Button 
+                  className="w-full bg-chagua-black text-white hover:bg-chagua-black/90"
+                  asChild
+                >
+                  <a href={`/tours/${tour.title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}`}>
+                    View Details
+                  </a>
                 </Button>
               </div>
             </div>

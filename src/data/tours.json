@@ -1,0 +1,233 @@
+[
+  {
+    "id": 1,
+    "slug": "serengeti-migration-safari",
+    "title": "Serengeti Migration Safari",
+    "shortDescription": "Witness the world's greatest wildlife spectacle as millions of wildebeest and zebra traverse the Serengeti plains in an epic journey of survival.",
+    "image": "/src/assets/serengeti-migration.jpg",
+    "gallery": [
+      "/src/assets/serengeti-migration.jpg",
+      "/src/assets/kilimanjaro-sunrise.jpg",
+      "/src/assets/hero-safari.jpg"
+    ],
+    "duration": "7 Days",
+    "highlights": ["Great Migration", "Big Five", "Balloon Safari"],
+    "price": "From $2,850",
+    "rating": 4.9,
+    "reviews": 124,
+    "quickFacts": {
+      "duration": "7 Days, 6 Nights",
+      "difficulty": "Moderate",
+      "groupSize": "2-8 People",
+      "bestSeason": "June - October"
+    },
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Arrival in Arusha",
+        "description": "Meet and greet at Kilimanjaro Airport. Transfer to your accommodation in Arusha for briefing and overnight stay."
+      },
+      {
+        "day": 2,
+        "title": "Arusha to Serengeti National Park",
+        "description": "Depart Arusha and drive to Serengeti National Park via Ngorongoro Conservation Area. Begin your first game drive in Central Serengeti."
+      },
+      {
+        "day": 3,
+        "title": "Great Migration Experience",
+        "description": "Full day dedicated to following the Great Migration. Witness river crossings and predator-prey interactions."
+      },
+      {
+        "day": 4,
+        "title": "Hot Air Balloon Safari",
+        "description": "Early morning balloon safari over the Serengeti plains, followed by champagne breakfast. Afternoon game drive."
+      },
+      {
+        "day": 5,
+        "title": "Western Serengeti",
+        "description": "Explore the Western Corridor of Serengeti, known for its resident wildlife and dramatic river crossings."
+      },
+      {
+        "day": 6,
+        "title": "Ngorongoro Crater",
+        "description": "Descend into the world's largest intact volcanic caldera for a full day of game viewing among diverse wildlife."
+      },
+      {
+        "day": 7,
+        "title": "Departure",
+        "description": "Morning at leisure, then transfer to Kilimanjaro Airport for your departure flight."
+      }
+    ],
+    "inclusions": [
+      "Airport transfers",
+      "Professional English-speaking guide",
+      "4WD safari vehicle with pop-up roof",
+      "All park fees and government taxes",
+      "Accommodation as specified",
+      "All meals during safari",
+      "Hot air balloon safari",
+      "Unlimited game drives",
+      "Emergency evacuation insurance"
+    ],
+    "exclusions": [
+      "International flights",
+      "Visa fees",
+      "Travel insurance",
+      "Personal expenses",
+      "Alcoholic beverages",
+      "Tips for guide and accommodation staff",
+      "Items of personal nature"
+    ]
+  },
+  {
+    "id": 2,
+    "slug": "zanzibar-beach-paradise",
+    "title": "Zanzibar Beach Paradise",
+    "shortDescription": "Discover the enchanting spice island with pristine beaches, rich history, and vibrant culture in this tropical paradise escape.",
+    "image": "/src/assets/zanzibar-beach.jpg",
+    "gallery": [
+      "/src/assets/zanzibar-beach.jpg",
+      "/src/assets/hero-safari.jpg"
+    ],
+    "duration": "5 Days",
+    "highlights": ["Pristine Beaches", "Spice Tours", "Stone Town"],
+    "price": "From $1,650",
+    "rating": 4.8,
+    "reviews": 89,
+    "quickFacts": {
+      "duration": "5 Days, 4 Nights",
+      "difficulty": "Easy",
+      "groupSize": "2-12 People",
+      "bestSeason": "June - March"
+    },
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Arrival in Stone Town",
+        "description": "Arrival at Zanzibar Airport. Transfer to Stone Town for guided tour of the UNESCO World Heritage site."
+      },
+      {
+        "day": 2,
+        "title": "Spice Tour & Jozani Forest",
+        "description": "Morning spice tour to learn about Zanzibar's spice heritage. Afternoon visit to Jozani Forest to see red colobus monkeys."
+      },
+      {
+        "day": 3,
+        "title": "Beach Relaxation",
+        "description": "Transfer to beach resort. Enjoy pristine white sand beaches and crystal-clear waters of the Indian Ocean."
+      },
+      {
+        "day": 4,
+        "title": "Dolphin Tour & Snorkeling",
+        "description": "Early morning dolphin watching tour followed by snorkeling at Mnemba Atoll's coral reefs."
+      },
+      {
+        "day": 5,
+        "title": "Departure",
+        "description": "Morning at leisure on the beach. Transfer to airport for departure."
+      }
+    ],
+    "inclusions": [
+      "Airport transfers",
+      "Professional guide",
+      "Stone Town accommodation (1 night)",
+      "Beach resort accommodation (3 nights)",
+      "Daily breakfast",
+      "Spice tour",
+      "Jozani Forest visit",
+      "Dolphin tour",
+      "Snorkeling equipment"
+    ],
+    "exclusions": [
+      "International flights",
+      "Lunch and dinner (except breakfast)",
+      "Alcoholic beverages",
+      "Personal expenses",
+      "Travel insurance",
+      "Tips"
+    ]
+  },
+  {
+    "id": 3,
+    "slug": "kilimanjaro-trekking",
+    "title": "Kilimanjaro Trekking",
+    "shortDescription": "Conquer Africa's highest peak via the scenic Machame Route with expert guides ensuring your safety and summit success.",
+    "image": "/src/assets/kilimanjaro-sunrise.jpg",
+    "gallery": [
+      "/src/assets/kilimanjaro-sunrise.jpg",
+      "/src/assets/hero-safari.jpg"
+    ],
+    "duration": "8 Days",
+    "highlights": ["Machame Route", "Summit Success", "Expert Guides"],
+    "price": "From $2,450",
+    "rating": 4.9,
+    "reviews": 156,
+    "quickFacts": {
+      "duration": "8 Days, 7 Nights",
+      "difficulty": "Challenging",
+      "groupSize": "1-12 People",
+      "bestSeason": "January - March, June - October"
+    },
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Machame Gate to Machame Camp",
+        "description": "Begin trek through the montane forest. First acclimatization day reaching Machame Camp at 3,000m."
+      },
+      {
+        "day": 2,
+        "title": "Machame Camp to Shira Camp",
+        "description": "Trek through moorland zone with spectacular views. Reach Shira Camp at 3,840m."
+      },
+      {
+        "day": 3,
+        "title": "Shira Camp to Barranco Camp",
+        "description": "Hike to Lava Tower (4,630m) for acclimatization, then descend to Barranco Camp at 3,960m."
+      },
+      {
+        "day": 4,
+        "title": "Barranco Camp to Karanga Camp",
+        "description": "Climb the famous Barranco Wall and continue to Karanga Camp for final acclimatization."
+      },
+      {
+        "day": 5,
+        "title": "Karanga Camp to Barafu Camp",
+        "description": "Short trek to Barafu Camp (4,640m), the base camp for summit attempt. Rest and prepare for summit night."
+      },
+      {
+        "day": 6,
+        "title": "Summit Day - Uhuru Peak",
+        "description": "Midnight start for summit attempt. Reach Uhuru Peak (5,895m) at sunrise, then descend to Mweka Camp."
+      },
+      {
+        "day": 7,
+        "title": "Mweka Camp to Mweka Gate",
+        "description": "Final descent through montane forest to Mweka Gate. Collect summit certificates and transfer to hotel."
+      },
+      {
+        "day": 8,
+        "title": "Departure",
+        "description": "Rest day in Moshi or transfer to airport for departure."
+      }
+    ],
+    "inclusions": [
+      "Professional mountain guide and porters",
+      "All park fees and permits",
+      "Camping equipment and meals on mountain",
+      "Airport transfers",
+      "Hotel accommodation before and after trek",
+      "Emergency oxygen and first aid kit",
+      "Summit certificate",
+      "Pre-trek briefing"
+    ],
+    "exclusions": [
+      "International flights",
+      "Personal trekking gear",
+      "Sleeping bag rental",
+      "Travel insurance",
+      "Tips for guides and porters",
+      "Personal expenses",
+      "Alcoholic beverages"
+    ]
+  }
+]
