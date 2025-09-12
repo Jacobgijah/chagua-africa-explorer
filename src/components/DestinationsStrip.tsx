@@ -53,7 +53,7 @@ const DestinationsStrip = () => {
         {/* Destinations Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {destinations.map((destination) => (
-            <div key={destination.id} className="destination-card">
+            <div key={destination.id} className="destination-card group">
               <div className="relative h-80 overflow-hidden rounded-xl">
                 <img 
                   src={destination.image} 
