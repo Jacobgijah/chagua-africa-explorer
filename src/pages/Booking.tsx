@@ -59,7 +59,7 @@ const Booking = () => {
       infants: 0,
       message: '',
       contactPreference: 'whatsapp',
-      preferredTour: ''
+      preferredTour: 'recommend'
     }
   });
 
@@ -126,7 +126,7 @@ const Booking = () => {
       `Travel Date: ${format(submittedData.planningDate, 'PPP')}\n` +
       `Duration: ${submittedData.stayLength}\n` +
       `Travelers: ${submittedData.adults} adults, ${submittedData.teens} teens, ${submittedData.children} children, ${submittedData.infants} infants\n` +
-      `${submittedData.preferredTour ? `Preferred Tour: ${submittedData.preferredTour}\n` : ''}` +
+      `${submittedData.preferredTour && submittedData.preferredTour !== 'recommend' ? `Preferred Tour: ${submittedData.preferredTour}\n` : ''}` +
       `${submittedData.message ? `Message: ${submittedData.message}` : ''}`
     );
     
@@ -158,7 +158,7 @@ const Booking = () => {
                   <p><strong>Duration:</strong> {submittedData.stayLength}</p>
                   <p><strong>Travelers:</strong> {submittedData.adults} adults, {submittedData.teens} teens, {submittedData.children} children, {submittedData.infants} infants</p>
                   <p><strong>Contact via:</strong> {submittedData.contactPreference}</p>
-                  {submittedData.preferredTour && (
+                  {submittedData.preferredTour && submittedData.preferredTour !== 'recommend' && (
                     <p><strong>Preferred Tour:</strong> {submittedData.preferredTour}</p>
                   )}
                 </div>
@@ -471,7 +471,7 @@ const Booking = () => {
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
-                                <SelectItem value="">Let us recommend</SelectItem>
+                                <SelectItem value="recommend">Let us recommend</SelectItem>
                                 {toursData.map((tour) => (
                                   <SelectItem key={tour.id} value={tour.title}>
                                     {tour.title} - {tour.duration}
