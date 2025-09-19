@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Menu, X, Phone, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import chaguaLogo from '@/assets/chagua-africa-logo.png';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -13,16 +14,12 @@ const Header = () => {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <div className="flex items-center">
-            <a href="/" className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-chagua-black rounded-full flex items-center justify-center">
-                <span className="text-chagua-orange font-bold text-xl">C</span>
-              </div>
-              <div className="hidden sm:block">
-                <h1 className="font-poppins font-bold text-lg text-chagua-black">
-                  Chagua Africa
-                </h1>
-                <p className="text-xs text-muted-foreground -mt-1">Tours & Safaris</p>
-              </div>
+            <a href="/" className="flex items-center">
+              <img 
+                src={chaguaLogo} 
+                alt="Chagua Africa Tours & Safaris" 
+                className="h-12 w-auto transition-transform duration-300 hover:scale-105"
+              />
             </a>
           </div>
 
