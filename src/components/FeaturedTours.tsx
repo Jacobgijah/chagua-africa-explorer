@@ -74,11 +74,11 @@ const FeaturedTours = () => {
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Featured <span className="text-chagua-orange">Safari Experiences</span>
+            Signature <span className="text-chagua-orange">Safari Experiences</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Discover our most popular and carefully crafted safari adventures, 
-            each designed to showcase Tanzania's incredible wildlife and landscapes
+            <span className="text-chagua-orange font-medium">Twende safari!</span> Discover our most popular and carefully crafted adventures, 
+            each designed to showcase Tanzania's incredible wildlife and landscapes.
           </p>
         </div>
 
@@ -96,7 +96,7 @@ const FeaturedTours = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                 
                 {/* Duration Badge */}
-                <div className="absolute top-4 left-4 bg-chagua-orange text-black px-3 py-1 rounded-full text-sm font-semibold">
+                <div className="absolute top-4 left-4 bg-chagua-orange text-chagua-black px-3 py-1 rounded-full text-sm font-semibold">
                   <Clock className="inline w-4 h-4 mr-1" />
                   {tour.duration}
                 </div>
@@ -139,7 +139,7 @@ const FeaturedTours = () => {
                 
                 {/* CTA */}
                 <Button 
-                  className="w-full bg-chagua-black text-white hover:bg-chagua-black/90"
+                  className="w-full bg-chagua-black text-white hover:bg-chagua-black/90 transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
                   asChild
                 >
                   <a href={`/tours/${tour.title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}`}>
