@@ -360,7 +360,7 @@ const Booking = () => {
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel>Adults</FormLabel>
-                              <Select onValueChange={(value) => field.onChange(parseInt(value))} value={field.value.toString()}>
+                              <Select onValueChange={(value) => field.onChange(parseInt(value))} value={field.value?.toString() || '2'}>
                                 <FormControl>
                                   <SelectTrigger>
                                     <SelectValue />
@@ -383,7 +383,7 @@ const Booking = () => {
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel>Teens (13-17)</FormLabel>
-                              <Select onValueChange={(value) => field.onChange(parseInt(value))} value={field.value.toString()}>
+                              <Select onValueChange={(value) => field.onChange(parseInt(value))} value={field.value?.toString() || '0'}>
                                 <FormControl>
                                   <SelectTrigger>
                                     <SelectValue />
@@ -406,7 +406,7 @@ const Booking = () => {
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel>Children (3-12)</FormLabel>
-                              <Select onValueChange={(value) => field.onChange(parseInt(value))} value={field.value.toString()}>
+                              <Select onValueChange={(value) => field.onChange(parseInt(value))} value={field.value?.toString() || '0'}>
                                 <FormControl>
                                   <SelectTrigger>
                                     <SelectValue />
@@ -429,7 +429,7 @@ const Booking = () => {
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel>Infants (0-2)</FormLabel>
-                              <Select onValueChange={(value) => field.onChange(parseInt(value))} value={field.value.toString()}>
+                              <Select onValueChange={(value) => field.onChange(parseInt(value))} value={field.value?.toString() || '0'}>
                                 <FormControl>
                                   <SelectTrigger>
                                     <SelectValue />
