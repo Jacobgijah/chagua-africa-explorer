@@ -2,127 +2,131 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Chagua Africa Tour and Safaris Design System
-Brand Colors: Black #000000, Orange #FF5722, White #FFFFFF
-Font: Poppins (all headings & body)
-African Design Elements: Subtle patterns, warm tones, rounded corners
-All colors MUST be HSL.
-*/
+/* 
+ * TANZANIA WONDERLAND - Design System
+ * Brand: Experience Tanzania beyond imagination
+ * Colors: Chocolate Brown (primary), Dark Grey (secondary), Khaki (accent)
+ * Font: Poppins
+ */
 
 @layer base {
   :root {
-    /* Brand Colors */
-    --background: 0 0% 100%;
-    --foreground: 0 0% 0%;
-    
-    /* Chagua Brand Palette */
-    --chagua-black: 0 0% 0%;
-    --chagua-orange: 25 100% 50%;
-    --chagua-white: 0 0% 100%;
-    
-    /* Contextual Colors */
-    --primary: 0 0% 0%;
-    --primary-foreground: 0 0% 100%;
+    /* Base colors */
+    --background: 45 20% 97%;
+    --foreground: 0 0% 15%;
 
+    /* Card & surfaces */
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 0%;
-
+    --card-foreground: 0 0% 15%;
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 0%;
+    --popover-foreground: 0 0% 15%;
 
-    --secondary: 25 100% 50%;
-    --secondary-foreground: 0 0% 0%;
+    /* Brand Colors - Tanzania Wonderland */
+    --brand-brown: 25 60% 28%;      /* Chocolate Brown - Primary */
+    --brand-grey: 0 0% 25%;          /* Dark Grey - Secondary */
+    --brand-khaki: 45 35% 65%;       /* Khaki - Accent */
 
-    --muted: 0 0% 95%;
-    --muted-foreground: 0 0% 45%;
+    /* Primary - Chocolate Brown */
+    --primary: 25 60% 28%;
+    --primary-foreground: 45 20% 97%;
 
-    --accent: 25 100% 50%;
-    --accent-foreground: 0 0% 0%;
+    /* Secondary - Dark Grey */
+    --secondary: 0 0% 25%;
+    --secondary-foreground: 45 20% 97%;
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
+    /* Accent - Khaki */
+    --accent: 45 35% 65%;
+    --accent-foreground: 0 0% 15%;
 
-    --border: 0 0% 88%;
-    --input: 0 0% 95%;
-    --ring: 25 100% 50%;
+    /* Muted surfaces */
+    --muted: 45 15% 93%;
+    --muted-foreground: 0 0% 40%;
 
-    --radius: 0.5rem;
-    
-    /* Safari/Tanzania Brand Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(0 0% 0% / 0.8), hsl(0 0% 0% / 0.4));
-    --gradient-sunset: linear-gradient(135deg, hsl(25 100% 60%), hsl(25 100% 50%));
-    --gradient-safari: linear-gradient(180deg, hsl(30 50% 25%), hsl(20 40% 15%));
-    --gradient-african: linear-gradient(45deg, hsl(25 100% 50% / 0.1), transparent);
-    
-    /* African Pattern Backgrounds */
-    --pattern-khanga: repeating-linear-gradient(45deg, transparent, transparent 10px, hsl(25 100% 50% / 0.05) 10px, hsl(25 100% 50% / 0.05) 20px);
-    --pattern-tinga: radial-gradient(circle at 20% 50%, hsl(25 100% 50% / 0.08) 2px, transparent 2px),
-                     radial-gradient(circle at 80% 50%, hsl(0 0% 0% / 0.08) 1px, transparent 1px);
-    
-    /* Shadows with brand colors */
-    --shadow-brand: 0 10px 40px hsl(0 0% 0% / 0.1);
-    --shadow-orange: 0 8px 32px hsl(25 100% 50% / 0.2);
-    --shadow-hero: 0 20px 60px hsl(0 0% 0% / 0.3);
-    --shadow-warm: 0 4px 20px hsl(25 60% 50% / 0.15);
-    
-    /* Smooth transitions */
+    /* Destructive */
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    /* Border & Input */
+    --border: 45 15% 85%;
+    --input: 45 15% 85%;
+    --ring: 25 60% 28%;
+
+    /* Border radius */
+    --radius: 0.75rem;
+
+    /* Gradients - African earth tones */
+    --gradient-safari: linear-gradient(135deg, hsl(25, 60%, 28%), hsl(35, 50%, 40%));
+    --gradient-savanna: linear-gradient(180deg, hsl(45, 35%, 65%), hsl(45, 25%, 80%));
+    --gradient-sunset: linear-gradient(135deg, hsl(25, 60%, 28%), hsl(15, 70%, 45%));
+
+    /* African patterns */
+    --pattern-tinga: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 10px,
+      hsl(45, 35%, 65%, 0.08) 10px,
+      hsl(45, 35%, 65%, 0.08) 20px
+    );
+    --pattern-khanga: radial-gradient(
+      circle at 25% 25%,
+      hsl(25, 60%, 28%, 0.05) 2px,
+      transparent 2px
+    );
+
+    /* Shadows */
+    --shadow-safari: 0 10px 30px -10px hsl(25, 60%, 28%, 0.3);
+    --shadow-soft: 0 4px 20px 0 hsl(0, 0%, 0%, 0.08);
+
+    /* Transitions */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    --transition-gentle: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Sidebar */
+    --sidebar-background: 0 0% 25%;
+    --sidebar-foreground: 45 20% 97%;
+    --sidebar-primary: 25 60% 28%;
+    --sidebar-primary-foreground: 45 20% 97%;
+    --sidebar-accent: 45 35% 65%;
+    --sidebar-accent-foreground: 0 0% 15%;
+    --sidebar-border: 0 0% 35%;
+    --sidebar-ring: 25 60% 28%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 0 0% 12%;
+    --foreground: 45 20% 97%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 0 0% 15%;
+    --card-foreground: 45 20% 97%;
+    --popover: 0 0% 15%;
+    --popover-foreground: 45 20% 97%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --primary: 25 55% 45%;
+    --primary-foreground: 45 20% 97%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 0 0% 35%;
+    --secondary-foreground: 45 20% 97%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --accent: 45 30% 55%;
+    --accent-foreground: 0 0% 15%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 0 0% 20%;
+    --muted-foreground: 45 15% 70%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 50.6%;
+    --destructive-foreground: 0 0% 98%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --border: 0 0% 25%;
+    --input: 0 0% 25%;
+    --ring: 25 55% 45%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 0 0% 10%;
+    --sidebar-foreground: 45 20% 97%;
+    --sidebar-primary: 25 55% 45%;
+    --sidebar-primary-foreground: 45 20% 97%;
+    --sidebar-accent: 45 30% 55%;
+    --sidebar-accent-foreground: 45 20% 97%;
+    --sidebar-border: 0 0% 20%;
+    --sidebar-ring: 25 55% 45%;
   }
 }
 
@@ -134,58 +138,55 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground font-poppins;
   }
-  
+
   h1, h2, h3, h4, h5, h6 {
-    @apply font-poppins;
+    font-family: 'Poppins', sans-serif;
   }
 }
 
 @layer components {
-  /* Hero Components */
+  /* Hero section styling */
   .hero-section {
-    @apply relative min-h-screen flex items-center justify-center overflow-hidden;
+    @apply relative min-h-[90vh] flex items-center justify-center overflow-hidden;
   }
-  
+
   .hero-overlay {
-    @apply absolute inset-0 bg-gradient-to-br from-black/80 via-black/50 to-black/30;
+    @apply absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/60;
   }
-  
-  /* Button Variants */
+
+  /* Button variants */
   .btn-hero {
-    @apply bg-secondary text-secondary-foreground hover:bg-secondary/90 
-           font-semibold px-8 py-4 rounded-lg transition-all duration-300 
-           hover:shadow-lg hover:-translate-y-0.5 border-2 border-secondary;
+    @apply bg-primary text-primary-foreground hover:bg-primary/90 font-bold px-8 py-4 text-lg rounded-xl transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
   }
-  
+
   .btn-outline-hero {
-    @apply bg-transparent text-white border-2 border-white hover:bg-white 
-           hover:text-black font-semibold px-8 py-4 rounded-lg transition-all 
-           duration-300 hover:shadow-lg hover:-translate-y-0.5;
+    @apply bg-transparent text-white border-2 border-white hover:bg-white hover:text-secondary font-bold px-8 py-4 text-lg rounded-xl transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
   }
-  
-  /* Card Components */
+
+  /* Tour cards */
   .tour-card {
-    @apply bg-card rounded-xl overflow-hidden shadow-lg hover:shadow-xl 
-           transition-all duration-300 hover:-translate-y-1 border border-border;
+    @apply bg-card rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-border;
   }
-  
+
+  /* Destination cards */
   .destination-card {
-    @apply relative overflow-hidden rounded-xl cursor-pointer;
+    @apply relative cursor-pointer;
   }
-  
-  /* Trust Badge */
+
+  /* Trust badges */
   .trust-badge {
-    @apply flex items-center gap-2 p-3 bg-white/95 backdrop-blur-sm 
-           rounded-lg border border-border shadow-sm;
+    @apply flex items-center gap-2 px-4 py-2 bg-accent/20 rounded-full text-sm font-medium;
   }
-  
+
   /* Animations */
   .animate-fade-up {
     animation: fade-up 0.6s ease-out forwards;
   }
-  
+
   .animate-slide-in {
-    animation: slide-in 0.8s ease-out forwards;
+    animation: slide-in 0.5s ease-out forwards;
+    animation-delay: 0.2s;
+    opacity: 0;
   }
 }
 
@@ -203,10 +204,10 @@ All colors MUST be HSL.
 @keyframes slide-in {
   from {
     opacity: 0;
-    transform: translateX(-30px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
   }
 }
