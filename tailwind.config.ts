@@ -23,10 +23,10 @@ export default {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
-        // Chagua Brand Colors
-        'chagua-black': "hsl(var(--chagua-black))",
-        'chagua-orange': "hsl(var(--chagua-orange))",
-        'chagua-white': "hsl(var(--chagua-white))",
+        // Tanzania Wonderland Brand Colors
+        'brand-brown': "hsl(var(--brand-brown))",
+        'brand-grey': "hsl(var(--brand-grey))",
+        'brand-khaki': "hsl(var(--brand-khaki))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",

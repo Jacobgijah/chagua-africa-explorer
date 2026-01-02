@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Calendar, Users, Baby } from 'lucide-react';
@@ -19,7 +20,7 @@ const TripQuickPlanner = () => {
           {/* Quick Planner Card */}
           <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-8 shadow-2xl border border-border">
             <h3 className="text-2xl font-bold text-foreground mb-2 text-center">
-              Plan Your Perfect Safari
+              Plan Your Perfect Adventure
             </h3>
             <p className="text-muted-foreground text-center mb-8">
               Get a personalized itinerary and free quote in minutes
@@ -33,7 +34,7 @@ const TripQuickPlanner = () => {
                   <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                   <Input 
                     type="date" 
-                    className="pl-10 h-12 border-2 focus:border-chagua-orange"
+                    className="pl-10 h-12 border-2 focus:border-primary"
                   />
                 </div>
               </div>
@@ -46,7 +47,7 @@ const TripQuickPlanner = () => {
                   <Input 
                     type="number" 
                     placeholder="2" 
-                    className="pl-10 h-12 border-2 focus:border-chagua-orange"
+                    className="pl-10 h-12 border-2 focus:border-primary"
                     min="1"
                     defaultValue="2"
                   />
@@ -61,7 +62,7 @@ const TripQuickPlanner = () => {
                   <Input 
                     type="number" 
                     placeholder="0" 
-                    className="pl-10 h-12 border-2 focus:border-chagua-orange"
+                    className="pl-10 h-12 border-2 focus:border-primary"
                     min="0"
                     defaultValue="0"
                   />
@@ -71,9 +72,11 @@ const TripQuickPlanner = () => {
               {/* CTA Button */}
               <div className="space-y-2">
                 <label className="text-sm font-medium text-transparent">Action</label>
-                <Button className="w-full bg-chagua-orange text-chagua-black hover:bg-chagua-orange/90 font-semibold h-12 transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5">
-                  Get Free Quote
-                </Button>
+                <Link to="/contact">
+                  <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold h-12 transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5">
+                    Get Free Quote
+                  </Button>
+                </Link>
               </div>
             </div>
 
