@@ -3,6 +3,8 @@ import { Mail, Phone, MapPin, Instagram, Facebook, Youtube } from 'lucide-react'
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
+import logo from '@/assets/logo-footer.png';
+
 const Footer = () => {
   return (
     <footer className="bg-secondary text-secondary-foreground">
@@ -10,20 +12,16 @@ const Footer = () => {
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
-          <div className="space-y-6">
+          <div className="space-y-0">
             <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-xl">TW</span>
-              </div>
-              <div>
-                <h3 className="font-bold text-xl text-secondary-foreground">TANZANIA</h3>
-                <p className="text-primary text-sm font-medium">WONDERLAND</p>
-              </div>
+              <Link to="/" className="flex items-center gap-3">
+              <img
+                src={logo}
+                alt="Logo"
+                className="w-60 h-60 rounded-full object-cover"
+              />
+              </Link>
             </div>
-            <p className="text-secondary-foreground/80 leading-relaxed">
-              Experience Tanzania beyond imagination. Wildlife safaris, cultural tours, 
-              mountain trekking, and beach escapes crafted by local experts.
-            </p>
             <div className="flex space-x-4">
               <a href="#" className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors">
                 <Instagram className="w-5 h-5" />

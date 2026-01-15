@@ -9,6 +9,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
+import logo from '@/assets/logo.png';
+
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -28,9 +30,11 @@ const Header = () => {
           {/* Logo */}
           <div className="flex items-center">
             <Link to="/" className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-xl">TW</span>
-              </div>
+              <img
+                src={logo}
+                alt="Logo"
+                className="w-20 h-20 rounded-full object-cover"
+              />
               <div className="hidden sm:block">
                 <h1 className="font-bold text-lg text-secondary leading-tight">TANZANIA</h1>
                 <p className="text-xs text-primary font-medium tracking-wider">WONDERLAND</p>
