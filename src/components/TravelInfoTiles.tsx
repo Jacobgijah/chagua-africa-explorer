@@ -88,10 +88,9 @@ const TravelInfoTiles = () => {
         {/* CTA to Travel Hub */}
         <div className="text-center">
           <Button 
-            className="bg-chagua-black text-white hover:bg-chagua-black/90 font-semibold px-8 py-4 text-lg rounded-xl transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
-            asChild
+            className="bg-chagua-orange text-chagua-black hover:bg-chagua-orange/90 font-semibold px-8 py-4 rounded-xl transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
           >
-            <a href="/travel-info">Visit Travel Info Hub</a>
+            Visit Travel Info Hub
           </Button>
         </div>
       </div>

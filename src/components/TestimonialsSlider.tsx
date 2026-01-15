@@ -85,7 +85,7 @@ const TestimonialsSlider = () => {
   const currentTestimonial = testimonials[currentIndex];
 
   return (
-    <section className="py-20 bg-chagua-black text-white relative overflow-hidden">
+    <section className="py-20 bg-chagua-black text-foreground relative overflow-hidden">
       {/* African Pattern Background */}
       <div 
         className="absolute inset-0 opacity-5"
@@ -99,7 +99,7 @@ const TestimonialsSlider = () => {
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             What Our <span className="text-chagua-orange">Travelers Say</span>
           </h2>
-          <p className="text-lg text-white/80 max-w-2xl mx-auto">
+          <p className="text-lg text-foreground/80 max-w-2xl mx-auto">
             Real experiences from adventurers who've journeyed with us across Tanzania.
           </p>
         </div>
