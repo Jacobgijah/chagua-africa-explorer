@@ -36,11 +36,11 @@ const Contact = () => {
               <div className="space-y-4">
                 <div className="flex items-start gap-4 p-4 bg-muted rounded-lg">
                   <Phone className="w-5 h-5 text-primary mt-1" />
-                  <div><p className="font-medium">+255 000 000 000</p><p className="text-sm text-muted-foreground">24/7 Support</p></div>
+                  <div><p className="font-medium">+255 717 395 728</p><p className="text-sm text-muted-foreground">24/7 Support</p></div>
                 </div>
                 <div className="flex items-start gap-4 p-4 bg-muted rounded-lg">
                   <Mail className="w-5 h-5 text-primary mt-1" />
-                  <div><p className="font-medium">info@tanzaniawonderland.com</p><p className="text-sm text-muted-foreground">Response within 2 hours</p></div>
+                  <div><p className="font-medium">tanzaniawonderland28@gmail.com</p><p className="text-sm text-muted-foreground">Response within 2 hours</p></div>
                 </div>
                 <div className="flex items-start gap-4 p-4 bg-muted rounded-lg">
                   <MapPin className="w-5 h-5 text-primary mt-1" />
@@ -48,7 +48,7 @@ const Contact = () => {
                 </div>
               </div>
             </div>
-            <Button className="w-full bg-green-600 hover:bg-green-700" onClick={() => window.open('https://wa.me/255000000000', '_blank')}>
+            <Button className="w-full bg-green-600 hover:bg-green-700" onClick={() => window.open('https://wa.me/255717395728', '_blank')}>
               <MessageCircle className="w-4 h-4 mr-2" /> Chat on WhatsApp
             </Button>
           </div>
