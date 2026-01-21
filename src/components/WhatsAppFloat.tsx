@@ -1,10 +1,11 @@
+// File: src/components/WhatsAppFloat.tsx
 import { MessageCircle } from 'lucide-react';
 import { useState } from 'react';
 
 const WhatsAppFloat = () => {
   const [isVisible, setIsVisible] = useState(true);
   
-  const whatsappNumber = "+255123456789";
+  const whatsappNumber = "+255717395728";
   const message = "Hi! I'm interested in planning a Tanzania safari. Can you help me with more information?";
   
   const handleWhatsAppClick = () => {
