@@ -184,6 +184,17 @@
   }
 }
 
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE/Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
+
+
 /* Accessibility: reduce motion */
 @media (prefers-reduced-motion: reduce) {
   * {
