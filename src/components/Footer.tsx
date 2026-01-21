@@ -60,14 +60,14 @@ const Footer = () => {
               <div className="flex items-start space-x-3">
                 <Phone className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
                 <div>
-                  <p className="text-secondary-foreground font-medium">+255 000 000 000</p>
+                  <p className="text-secondary-foreground font-medium">+255 717 395 728</p>
                   <p className="text-secondary-foreground/70 text-sm">24/7 Support</p>
                 </div>
               </div>
               <div className="flex items-start space-x-3">
                 <Mail className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
                 <div>
-                  <p className="text-secondary-foreground font-medium">info@tanzaniawonderland.com</p>
+                  <p className="text-secondary-foreground font-medium">tanzaniawonderland28@gmail.com</p>
                   <p className="text-secondary-foreground/70 text-sm">Get free quotes</p>
                 </div>
               </div>
