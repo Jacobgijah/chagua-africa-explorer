@@ -2,10 +2,10 @@ import { Link, useParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { CheckCircle, ArrowRight, Phone, Mail } from 'lucide-react';
-import heroImage from '@/assets/hero-safari.jpg';
-import serengetiImage from '@/assets/serengeti-migration.jpg';
-import kilimanjaroImage from '@/assets/kilimanjaro-sunrise.jpg';
-import zanzibarImage from '@/assets/zanzibar-beach.jpg';
+import heroImage from '@/assets/images/GalleryPreview/gallery9.jpg';
+import serengetiImage from '@/assets/images/GalleryPreview/gallery8.jpg';
+import kilimanjaroImage from '@/assets/images/featuredTours/kilimanjaro-trek.jpg';
+import zanzibarImage from '@/assets/images/featuredTours/zanzibar-beach.jpg';
 
 const servicesData: Record<string, { title: string; tagline: string; description: string; image: string; highlights: string[]; packages: { name: string; duration: string; price: string }[] }> = {
   'wildlife-safari': {
