@@ -2,11 +2,18 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Clock, Star, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  Clock,
+  Star,
+  ArrowRight,
+  ChevronLeft,
+  ChevronRight,
+  Maximize2,
+} from "lucide-react";
 
-import serengetiImage from "@/assets/serengeti-migration.jpg";
-import zanzibarImage from "@/assets/zanzibar-beach.jpg";
-import kilimanjaroImage from "@/assets/kilimanjaro-sunrise.jpg";
+import serengetiImage from "@/assets/images/featuredTours/serengeti-migration.jpg";
+import zanzibarImage from "@/assets/images/featuredTours/zanzibar-beach.jpg";
+import kilimanjaroImage from "@/assets/images/featuredTours/kilimanjaro-trek.jpg";
 
 const tours = [
   {
@@ -79,112 +86,179 @@ const slugify = (s: string) =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)+/g, "");
 
-const clamp = (n: number, min: number, max: number) => Math.min(max, Math.max(min, n));
-
 const FeaturedTours = () => {
-  // Standard autoplay interval (ms)
+  // Autoplay interval (ms)
   const AUTO_MS = 1900;
 
-  const scrollerRef = useRef<HTMLDivElement | null>(null);
-  const itemRefs = useRef<Array<HTMLDivElement | null>>([]);
-
-  const [active, setActive] = useState(0);
-  const [paused, setPaused] = useState(false);
-  const [canPrev, setCanPrev] = useState(false);
-  const [canNext, setCanNext] = useState(true);
+  // How many clones on each side (1 is enough for your current layout)
+  const CLONE = 1;
 
   const total = tours.length;
 
-  const goTo = useCallback(
-    (index: number, behavior: ScrollBehavior = "smooth") => {
-      const i = clamp(index, 0, total - 1);
-      const el = scrollerRef.current;
-      const item = itemRefs.current[i];
-      if (!el || !item) return;
+  // Build extended list: [last] + originals + [first]
+  const slides = useMemo(() => {
+    const head = tours.slice(-CLONE);
+    const tail = tours.slice(0, CLONE);
+    return [...head, ...tours, ...tail];
+  }, [CLONE]);
 
-      el.scrollTo({ left: item.offsetLeft, behavior });
-      setActive(i);
+  const scrollerRef = useRef<HTMLDivElement | null>(null);
+  const itemRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const isResettingRef = useRef(false);
+
+  // extActive = index in slides array
+  const [extActive, setExtActive] = useState(CLONE); // start at first real slide
+  const [active, setActive] = useState(0); // real index 0..total-1
+  const [paused, setPaused] = useState(false);
+
+  const extToReal = useCallback(
+    (extIdx: number) => {
+      // convert ext index -> real index
+      const real = (extIdx - CLONE + total) % total;
+      return real < 0 ? real + total : real;
     },
-    [total]
+    [CLONE, total]
   );
 
-  const updateArrows = useCallback(() => {
+  const goToExt = useCallback((targetExt: number, behavior: ScrollBehavior = "smooth") => {
     const el = scrollerRef.current;
-    if (!el) return;
-    const { scrollLeft, scrollWidth, clientWidth } = el;
-    setCanPrev(scrollLeft > 2);
-    setCanNext(scrollLeft + clientWidth < scrollWidth - 2);
+    const item = itemRefs.current[targetExt];
+    if (!el || !item) return;
+    el.scrollTo({ left: item.offsetLeft, behavior });
   }, []);
 
-  // Determine active slide based on nearest card to the left edge
-  const updateActiveFromScroll = useCallback(() => {
+  const goToReal = useCallback(
+    (realIdx: number, behavior: ScrollBehavior = "smooth") => {
+      const t = CLONE + realIdx; // shift into extended space
+      setExtActive(t);
+      setActive(realIdx);
+      requestAnimationFrame(() => goToExt(t, behavior));
+    },
+    [CLONE, goToExt]
+  );
+
+  const wrapExtForButtons = useCallback(
+    (idx: number) => {
+      // valid ext indices: 0..(total + 2*CLONE - 1) == 0..(total+1) when CLONE=1
+      const max = total + CLONE; // for CLONE=1 -> total+1 is last index
+      if (idx < 0) return total; // jump near end (real last ext index)
+      if (idx > max) return CLONE; // jump near start (first real ext index)
+      return idx;
+    },
+    [CLONE, total]
+  );
+
+  const goPrev = useCallback(() => {
+    const nextExt = wrapExtForButtons(extActive - 1);
+    setExtActive(nextExt);
+    setActive(extToReal(nextExt));
+    requestAnimationFrame(() => goToExt(nextExt, "smooth"));
+  }, [extActive, wrapExtForButtons, extToReal, goToExt]);
+
+  const goNext = useCallback(() => {
+    const nextExt = wrapExtForButtons(extActive + 1);
+    setExtActive(nextExt);
+    setActive(extToReal(nextExt));
+    requestAnimationFrame(() => goToExt(nextExt, "smooth"));
+  }, [extActive, wrapExtForButtons, extToReal, goToExt]);
+
+  // Initial position: jump to first real slide (index = CLONE) without animation
+  useEffect(() => {
     const el = scrollerRef.current;
-    if (!el) return;
+    const item = itemRefs.current[CLONE];
+    if (!el || !item) return;
+    el.scrollTo({ left: item.offsetLeft, behavior: "auto" });
+    // set states consistently
+    setExtActive(CLONE);
+    setActive(0);
+  }, [CLONE]);
 
-    const left = el.scrollLeft;
-    let bestIdx = 0;
-    let bestDist = Number.POSITIVE_INFINITY;
-
-    for (let i = 0; i < total; i++) {
-      const item = itemRefs.current[i];
-      if (!item) continue;
-      const d = Math.abs(item.offsetLeft - left);
-      if (d < bestDist) {
-        bestDist = d;
-        bestIdx = i;
-      }
-    }
-    setActive(bestIdx);
-    updateArrows();
-  }, [total, updateArrows]);
-
-  // Scroll listener (throttled with rAF)
+  // Track active slide & perform seamless reset at clones
   useEffect(() => {
     const el = scrollerRef.current;
     if (!el) return;
 
     let raf = 0;
+
     const onScroll = () => {
       if (raf) cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => updateActiveFromScroll());
+
+      raf = requestAnimationFrame(() => {
+        const left = el.scrollLeft;
+
+        let bestIdx = 0;
+        let bestDist = Number.POSITIVE_INFINITY;
+
+        for (let i = 0; i < slides.length; i++) {
+          const item = itemRefs.current[i];
+          if (!item) continue;
+          const d = Math.abs(item.offsetLeft - left);
+          if (d < bestDist) {
+            bestDist = d;
+            bestIdx = i;
+          }
+        }
+
+        // update active state
+        setExtActive(bestIdx);
+        setActive(extToReal(bestIdx));
+
+        if (isResettingRef.current) return;
+
+        const lastExtIndex = total + CLONE; // for CLONE=1 -> total+1
+        const firstRealExtIndex = CLONE; // 1
+        const lastRealExtIndex = total; // total
+
+        // If we reached clones, jump instantly to the corresponding real slide
+        if (bestIdx === 0) {
+          // at left clone (last item cloned)
+          const jumpTo = lastRealExtIndex;
+          const jumpItem = itemRefs.current[jumpTo];
+          if (!jumpItem) return;
+
+          isResettingRef.current = true;
+          el.scrollTo({ left: jumpItem.offsetLeft, behavior: "auto" });
+          setExtActive(jumpTo);
+          setActive(extToReal(jumpTo));
+          window.setTimeout(() => (isResettingRef.current = false), 30);
+        } else if (bestIdx === lastExtIndex) {
+          // at right clone (first item cloned)
+          const jumpTo = firstRealExtIndex;
+          const jumpItem = itemRefs.current[jumpTo];
+          if (!jumpItem) return;
+
+          isResettingRef.current = true;
+          el.scrollTo({ left: jumpItem.offsetLeft, behavior: "auto" });
+          setExtActive(jumpTo);
+          setActive(extToReal(jumpTo));
+          window.setTimeout(() => (isResettingRef.current = false), 30);
+        }
+      });
     };
 
     el.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", updateArrows);
-
-    // initial
-    updateArrows();
-
     return () => {
       if (raf) cancelAnimationFrame(raf);
       el.removeEventListener("scroll", onScroll as any);
-      window.removeEventListener("resize", updateArrows);
     };
-  }, [updateActiveFromScroll, updateArrows]);
+  }, [slides.length, total, CLONE, extToReal]);
 
-  // Autoplay
+  // Autoplay (infinite)
   useEffect(() => {
     if (paused) return;
     if (total <= 1) return;
 
     const id = window.setInterval(() => {
-      setActive((prev) => {
-        const next = (prev + 1) % total;
-        // scroll without waiting for state update
-        requestAnimationFrame(() => goTo(next, "smooth"));
+      // move to next slide (allow going into right clone; scroll handler will auto-reset)
+      setExtActive((prev) => {
+        const next = prev + 1;
+        requestAnimationFrame(() => goToExt(next, "smooth"));
         return next;
       });
     }, AUTO_MS);
 
     return () => window.clearInterval(id);
-  }, [paused, total, goTo]);
-
-  const scrollByAmount = (dir: "prev" | "next") => {
-    const el = scrollerRef.current;
-    if (!el) return;
-    const amount = Math.max(320, Math.floor(el.clientWidth * 0.88));
-    el.scrollBy({ left: dir === "next" ? amount : -amount, behavior: "smooth" });
-  };
+  }, [paused, total, AUTO_MS, goToExt]);
 
   const header = useMemo(
     () => (
@@ -199,8 +273,7 @@ const FeaturedTours = () => {
         </h2>
 
         <p className="mt-4 text-base sm:text-lg text-muted-foreground">
-          Handpicked safari, trekking, culture and beach journeys — premium planning, local expertise,
-          and reliable logistics.
+          Images first — hover to reveal full details. Premium planning, local expertise, and reliable logistics.
         </p>
       </div>
     ),
@@ -209,7 +282,7 @@ const FeaturedTours = () => {
 
   return (
     <section className="relative isolate overflow-hidden py-16 sm:py-20">
-      {/* Background that matches your Hero */}
+      {/* Background */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-background" />
         <div className="absolute -top-40 left-1/2 h-80 w-[52rem] -translate-x-1/2 rounded-full bg-primary/10 blur-3xl" />
@@ -225,38 +298,28 @@ const FeaturedTours = () => {
           <div className="pointer-events-none absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-background to-transparent" />
           <div className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-background to-transparent" />
 
-          {/* Arrows */}
+          {/* Arrows (always enabled for infinite loop) */}
           <div className="absolute -top-14 right-0 hidden sm:flex items-center gap-2">
             <button
               type="button"
-              onClick={() => scrollByAmount("prev")}
-              disabled={!canPrev}
+              onClick={goPrev}
               aria-label="Previous tours"
-              className={[
-                "h-10 w-10 rounded-2xl border backdrop-blur transition-all",
-                "bg-white/70 border-border text-foreground hover:bg-white",
-                !canPrev ? "opacity-40 cursor-not-allowed" : "hover:shadow-soft",
-              ].join(" ")}
+              className="h-10 w-10 rounded-2xl border bg-white/70 border-border text-foreground hover:bg-white backdrop-blur transition-all hover:shadow-soft"
             >
               <ChevronLeft className="mx-auto h-5 w-5" />
             </button>
 
             <button
               type="button"
-              onClick={() => scrollByAmount("next")}
-              disabled={!canNext}
+              onClick={goNext}
               aria-label="Next tours"
-              className={[
-                "h-10 w-10 rounded-2xl border backdrop-blur transition-all",
-                "bg-white/70 border-border text-foreground hover:bg-white",
-                !canNext ? "opacity-40 cursor-not-allowed" : "hover:shadow-soft",
-              ].join(" ")}
+              className="h-10 w-10 rounded-2xl border bg-white/70 border-border text-foreground hover:bg-white backdrop-blur transition-all hover:shadow-soft"
             >
               <ChevronRight className="mx-auto h-5 w-5" />
             </button>
           </div>
 
-          {/* Scroller (no scrollbar line) */}
+          {/* Scroller */}
           <div
             ref={scrollerRef}
             onMouseEnter={() => setPaused(true)}
@@ -267,31 +330,33 @@ const FeaturedTours = () => {
             style={{ WebkitOverflowScrolling: "touch" as any }}
             aria-label="Featured tours carousel"
           >
-            {tours.map((tour, idx) => {
+            {slides.map((tour, idx) => {
               const href = `/tours/${slugify(tour.title)}`;
 
               return (
                 <article
-                  key={tour.id}
+                  key={`${tour.id}-${idx}`} // important: unique keys for clones
                   ref={(node) => (itemRefs.current[idx] = node)}
                   className={[
                     "group relative flex-none snap-start",
-                    "w-[85%] sm:w-[440px] lg:w-[420px] xl:w-[440px]",
-                    "overflow-hidden rounded-3xl border border-border bg-white/70 backdrop-blur-xl",
+                    "w-[90%] sm:w-[520px] lg:w-[520px] xl:w-[560px]",
+                    "overflow-hidden rounded-3xl border border-border bg-white/60 backdrop-blur-xl",
                     "shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-glow",
                   ].join(" ")}
                 >
-                  {/* Media */}
+                  {/* Image-first */}
                   <div className="relative">
                     <img
                       src={tour.image}
-                      alt={tour.title}
-                      className="h-60 w-full object-cover transition-transform duration-700 group-hover:scale-[1.06]"
+                      alt={`${tour.title} — image`}
+                      className="h-[360px] sm:h-[420px] w-full object-cover transition-transform duration-700 group-hover:scale-[1.07]"
                       loading="lazy"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
-                    <div className="absolute inset-0 bg-[radial-gradient(60%_50%_at_50%_20%,rgba(255,255,255,0.12),transparent_70%)]" />
 
+                    {/* Base readability gradient */}
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
+
+                    {/* Always-visible chips */}
                     <div className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur-md">
                       <Clock className="h-4 w-4 text-white/85" />
                       {tour.duration}
@@ -302,43 +367,69 @@ const FeaturedTours = () => {
                       {tour.rating}
                       <span className="text-white/70 font-medium">({tour.reviews})</span>
                     </div>
+
+                    <div className="absolute right-4 bottom-4 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur-md">
+                      <Maximize2 className="h-4 w-4 text-white/85" />
+                      <span className="text-white/90">
+                        {tour.duration} • {tour.price}
+                      </span>
+                    </div>
+
+                    {/* Hover overlay */}
+                    <div
+                      className={[
+                        "absolute inset-0",
+                        "opacity-0 translate-y-2",
+                        "transition-all duration-300",
+                        "group-hover:opacity-100 group-hover:translate-y-0",
+                        "bg-gradient-to-t from-black/80 via-black/35 to-black/10",
+                      ].join(" ")}
+                    >
+                      <div className="absolute inset-x-0 bottom-0 p-6 sm:p-7">
+                        <h3 className="text-xl sm:text-2xl font-semibold tracking-tight text-white">
+                          {tour.title}
+                        </h3>
+
+                        <div className="mt-3 flex flex-wrap gap-2">
+                          {tour.highlights.map((h) => (
+                            <span
+                              key={`${h}-${idx}`}
+                              className="rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[11px] font-medium text-white/85 backdrop-blur"
+                            >
+                              {h}
+                            </span>
+                          ))}
+                        </div>
+
+                        <div className="mt-5 flex items-end justify-between gap-4">
+                          <div>
+                            <div className="text-2xl font-semibold text-accent">{tour.price}</div>
+                            <div className="text-xs text-white/70">per person</div>
+                          </div>
+                          <div className="text-right text-xs text-white/70">
+                            {tour.reviews} reviews
+                          </div>
+                        </div>
+
+                        <div className="mt-6">
+                          <Button
+                            className="group/button w-full h-12 rounded-2xl bg-primary text-primary-foreground hover:bg-primary/90 shadow-soft hover:shadow-glow transition-all"
+                            asChild
+                          >
+                            <Link to={href}>
+                              View Details
+                              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/button:translate-x-0.5" />
+                            </Link>
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
 
-                  {/* Body */}
-                  <div className="p-6">
-                    <h3 className="text-lg font-semibold tracking-tight text-foreground transition-colors group-hover:text-primary">
-                      {tour.title}
-                    </h3>
-
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {tour.highlights.map((h) => (
-                        <span
-                          key={h}
-                          className="rounded-full border border-border bg-muted/60 px-3 py-1 text-[11px] font-medium text-muted-foreground"
-                        >
-                          {h}
-                        </span>
-                      ))}
-                    </div>
-
-                    <div className="mt-5 flex items-end justify-between gap-4">
-                      <div>
-                        <div className="text-xl font-semibold text-primary">{tour.price}</div>
-                        <div className="text-xs text-muted-foreground">per person</div>
-                      </div>
-                      <div className="text-right text-xs text-muted-foreground">{tour.reviews} reviews</div>
-                    </div>
-
-                    <div className="mt-6">
-                      <Button
-                        className="group/button w-full h-12 rounded-2xl bg-primary text-primary-foreground hover:bg-primary/90 shadow-soft hover:shadow-glow transition-all"
-                        asChild
-                      >
-                        <Link to={href}>
-                          View Details
-                          <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/button:translate-x-0.5" />
-                        </Link>
-                      </Button>
+                  <div className="p-4">
+                    <div className="flex items-center justify-between text-xs text-muted-foreground">
+                      <span className="font-medium text-foreground/80">{tour.title}</span>
+                      <span className="opacity-70">Hover for details</span>
                     </div>
                   </div>
 
@@ -348,7 +439,7 @@ const FeaturedTours = () => {
             })}
           </div>
 
-          {/* Dots (pagination) */}
+          {/* Dots (always for REAL tours only) */}
           <div className="mt-6 flex items-center justify-center gap-2">
             {tours.map((t, i) => {
               const isActive = i === active;
@@ -357,10 +448,9 @@ const FeaturedTours = () => {
                   key={t.id}
                   type="button"
                   aria-label={`Go to slide ${i + 1}`}
-                  onClick={() => goTo(i, "smooth")}
+                  onClick={() => goToReal(i, "smooth")}
                   className={[
-                    "h-2.5 w-2.5 rounded-full transition-all",
-                    "border",
+                    "h-2.5 w-2.5 rounded-full transition-all border",
                     isActive
                       ? "bg-primary border-primary scale-110"
                       : "bg-white/60 border-border hover:bg-white",
