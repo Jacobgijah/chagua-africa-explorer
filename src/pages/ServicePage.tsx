@@ -127,8 +127,8 @@ const ServicePage = () => {
               <Link to="/contact"><Button className="w-full mb-4">Plan My Trip</Button></Link>
               <Link to="/contact"><Button variant="outline" className="w-full">Request a Quote</Button></Link>
               <div className="mt-6 pt-6 border-t space-y-3">
-                <div className="flex items-center gap-3 text-sm"><Phone className="w-4 h-4 text-primary" /> +255 000 000 000</div>
-                <div className="flex items-center gap-3 text-sm"><Mail className="w-4 h-4 text-primary" /> info@tanzaniawonderland.com</div>
+                <div className="flex items-center gap-3 text-sm"><Phone className="w-4 h-4 text-primary" /> +255 717 395 728</div>
+                <div className="flex items-center gap-3 text-sm"><Mail className="w-4 h-4 text-primary" /> tanzaniawonderland@gmail.com</div>
               </div>
             </div>
           </div>

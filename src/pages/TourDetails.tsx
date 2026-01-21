@@ -269,12 +269,12 @@ const TourDetails = () => {
                     </div>
                     <div>
                       <div className="font-medium">Call Us</div>
-                      <div className="text-sm">+255 123 456 789</div>
+                      <div className="text-sm">+255 717 395 728</div>
                     </div>
                   </a>
                   
                   <a 
-                    href="https://wa.me/255123456789" 
+                    href="https://wa.me/255717395728" 
                     className="flex items-center gap-3 text-muted-foreground hover:text-chagua-orange transition-colors"
                   >
                     <div className="w-10 h-10 bg-chagua-orange rounded-full flex items-center justify-center">
