@@ -1,9 +1,15 @@
+// File: src/components/GalleryPreview.tsx
 import { useState } from 'react';
 import { X, ChevronLeft, ChevronRight, Play } from 'lucide-react';
-import heroImage from '@/assets/hero-safari.jpg';
-import serengetiImage from '@/assets/serengeti-migration.jpg';
-import zanzibarImage from '@/assets/zanzibar-beach.jpg';
-import kilimanjaroImage from '@/assets/kilimanjaro-sunrise.jpg';
+import heroImage from '@/assets/images/GalleryPreview/gallery1.jpg';
+import serengetiImage from '@/assets/images/GalleryPreview/gallery2.jpg';
+import zanzibarImage from '@/assets/images/GalleryPreview/gallery3.jpg';
+import kilimanjaroImage from '@/assets/images/GalleryPreview/gallery4.jpg';
+import galleryImage1 from '@/assets/images/GalleryPreview/gallery5.jpg';
+import galleryImage2 from '@/assets/images/GalleryPreview/gallery6.jpg';
+import galleryImage3 from '@/assets/images/GalleryPreview/gallery7.jpg';
+import galleryImage4 from '@/assets/images/GalleryPreview/gallery8.jpg';
+
 
 const galleryItems = [
   {
@@ -32,26 +38,26 @@ const galleryItems = [
   },
   {
     type: 'video',
-    src: heroImage, // Using image as placeholder for video
+    src: galleryImage1, // Using image as placeholder for video
     alt: 'Safari video highlight',
     caption: 'Wildlife in motion',
     isVideo: true
   },
   {
     type: 'image',
-    src: serengetiImage,
+    src: galleryImage2,
     alt: 'Maasai cultural experience',
     caption: 'Authentic cultural encounters'
   },
   {
     type: 'image',
-    src: zanzibarImage,
+    src: galleryImage3,
     alt: 'Stone Town architecture',
     caption: 'Historic Stone Town charm'
   },
   {
     type: 'image',
-    src: kilimanjaroImage,
+    src: galleryImage4,
     alt: 'Crater rim adventure',
     caption: 'Ngorongoro Crater wonders'
   }

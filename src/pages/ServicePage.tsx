@@ -2,10 +2,10 @@ import { Link, useParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { CheckCircle, ArrowRight, Phone, Mail } from 'lucide-react';
-import heroImage from '@/assets/hero-safari.jpg';
-import serengetiImage from '@/assets/serengeti-migration.jpg';
-import kilimanjaroImage from '@/assets/kilimanjaro-sunrise.jpg';
-import zanzibarImage from '@/assets/zanzibar-beach.jpg';
+import heroImage from '@/assets/images/GalleryPreview/gallery9.jpg';
+import serengetiImage from '@/assets/images/GalleryPreview/gallery8.jpg';
+import kilimanjaroImage from '@/assets/images/featuredTours/kilimanjaro-trek.jpg';
+import zanzibarImage from '@/assets/images/featuredTours/zanzibar-beach.jpg';
 
 const servicesData: Record<string, { title: string; tagline: string; description: string; image: string; highlights: string[]; packages: { name: string; duration: string; price: string }[] }> = {
   'wildlife-safari': {
@@ -127,8 +127,8 @@ const ServicePage = () => {
               <Link to="/contact"><Button className="w-full mb-4">Plan My Trip</Button></Link>
               <Link to="/contact"><Button variant="outline" className="w-full">Request a Quote</Button></Link>
               <div className="mt-6 pt-6 border-t space-y-3">
-                <div className="flex items-center gap-3 text-sm"><Phone className="w-4 h-4 text-primary" /> +255 000 000 000</div>
-                <div className="flex items-center gap-3 text-sm"><Mail className="w-4 h-4 text-primary" /> info@tanzaniawonderland.com</div>
+                <div className="flex items-center gap-3 text-sm"><Phone className="w-4 h-4 text-primary" /> +255 717 395 728</div>
+                <div className="flex items-center gap-3 text-sm"><Mail className="w-4 h-4 text-primary" /> tanzaniawonderland@gmail.com</div>
               </div>
             </div>
           </div>

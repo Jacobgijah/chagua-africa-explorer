@@ -4,11 +4,11 @@
     "slug": "serengeti-migration-safari",
     "title": "Serengeti Migration Safari",
     "shortDescription": "Witness the world's greatest wildlife spectacle as millions of wildebeest and zebra traverse the Serengeti plains in an epic journey of survival.",
-    "image": "/src/assets/serengeti-migration.jpg",
+    "image": "/src/assets/images/featuredTours/serengeti-migration.jpg",
     "gallery": [
-      "/src/assets/serengeti-migration.jpg",
-      "/src/assets/kilimanjaro-sunrise.jpg",
-      "/src/assets/hero-safari.jpg"
+      "/src/assets/images/GalleryPreview/gallery1.jpg",
+      "/src/assets/images/GalleryPreview/gallery2.jpg",
+      "/src/assets/images/GalleryPreview/gallery3.jpg"
     ],
     "duration": "7 Days",
     "highlights": ["Great Migration", "Big Five", "Balloon Safari"],
@@ -84,10 +84,10 @@
     "slug": "zanzibar-beach-paradise",
     "title": "Zanzibar Beach Paradise",
     "shortDescription": "Discover the enchanting spice island with pristine beaches, rich history, and vibrant culture in this tropical paradise escape.",
-    "image": "/src/assets/zanzibar-beach.jpg",
+    "image": "/src/assets/images/featuredTours/zanzibar-beach.jpg",
     "gallery": [
-      "/src/assets/zanzibar-beach.jpg",
-      "/src/assets/hero-safari.jpg"
+      "/src/assets/images/GalleryPreview/gallery4.jpg",
+      "/src/assets/images/GalleryPreview/gallery5.jpg"
     ],
     "duration": "5 Days",
     "highlights": ["Pristine Beaches", "Spice Tours", "Stone Town"],
@@ -152,10 +152,10 @@
     "slug": "kilimanjaro-trekking",
     "title": "Kilimanjaro Trekking",
     "shortDescription": "Conquer Africa's highest peak via the scenic Machame Route with expert guides ensuring your safety and summit success.",
-    "image": "/src/assets/kilimanjaro-sunrise.jpg",
+    "image": "/src/assets/images/featuredTours/kilimanjaro-trek.jpg",
     "gallery": [
-      "/src/assets/kilimanjaro-sunrise.jpg",
-      "/src/assets/hero-safari.jpg"
+      "/src/assets/images/featuredTours/kilimanjaro-trek.jpg",
+      "/src/assets/images/featuredTours/serengeti-migration.jpg"
     ],
     "duration": "8 Days",
     "highlights": ["Machame Route", "Summit Success", "Expert Guides"],

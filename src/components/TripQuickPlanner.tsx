@@ -1,88 +1,140 @@
-import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Calendar, Users, Baby } from 'lucide-react';
-import TrustChips from './TrustChips';
+// File: src/components/TripQuickPlanner.tsx
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Calendar, Users, Baby, ArrowRight } from "lucide-react";
+import TrustChips from "./TrustChips";
 
 const TripQuickPlanner = () => {
   return (
-    <section className="py-16 bg-background relative overflow-hidden">
-      {/* African Pattern Background */}
-      <div 
-        className="absolute inset-0 opacity-30"
-        style={{
-          background: 'var(--pattern-khanga)',
-        }}
-      />
-      
-      <div className="relative z-10 container mx-auto px-4">
-        <div className="max-w-4xl mx-auto">
-          {/* Quick Planner Card */}
-          <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-8 shadow-2xl border border-border">
-            <h3 className="text-2xl font-bold text-foreground mb-2 text-center">
-              Plan Your Perfect Adventure
-            </h3>
-            <p className="text-muted-foreground text-center mb-8">
-              Get a personalized itinerary and free quote in minutes
-            </p>
-            
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-              {/* Arrival Date */}
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-foreground">Arrival Date</label>
-                <div className="relative">
-                  <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                  <Input 
-                    type="date" 
-                    className="pl-10 h-12 border-2 focus:border-primary"
-                  />
-                </div>
+    <section className="relative isolate overflow-hidden py-14 sm:py-16">
+      {/* Background: subtle safari texture + soft gradients (matches Hero) */}
+      <div className="absolute inset-0 -z-10">
+        {/* Base */}
+        <div className="absolute inset-0 bg-background" />
+        {/* Pattern (from index.css vars) */}
+        <div
+          className="absolute inset-0 opacity-[0.18]"
+          style={{ background: "var(--pattern-khanga)" }}
+        />
+        {/* Soft brand gradients */}
+        <div className="absolute -top-32 left-1/2 h-72 w-[46rem] -translate-x-1/2 rounded-full bg-primary/15 blur-3xl" />
+        <div className="absolute -bottom-40 right-[-10rem] h-80 w-80 rounded-full bg-accent/20 blur-3xl" />
+        {/* Gentle vignette */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/[0.03]" />
+      </div>
+
+      <div className="container relative">
+        <div className="mx-auto max-w-6xl">
+          {/* Header strip (aligns with Hero styling) */}
+          <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-border bg-white/70 px-4 py-2 text-xs font-semibold tracking-widest text-foreground/80 backdrop-blur">
+                <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+                QUICK TRIP PLANNER
               </div>
-              
-              {/* Adults */}
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-foreground">Adults</label>
-                <div className="relative">
-                  <Users className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                  <Input 
-                    type="number" 
-                    placeholder="2" 
-                    className="pl-10 h-12 border-2 focus:border-primary"
-                    min="1"
-                    defaultValue="2"
-                  />
-                </div>
-              </div>
-              
-              {/* Children */}
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-foreground">Children</label>
-                <div className="relative">
-                  <Baby className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                  <Input 
-                    type="number" 
-                    placeholder="0" 
-                    className="pl-10 h-12 border-2 focus:border-primary"
-                    min="0"
-                    defaultValue="0"
-                  />
-                </div>
-              </div>
-              
-              {/* CTA Button */}
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-transparent">Action</label>
-                <Link to="/contact">
-                  <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold h-12 transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5">
-                    Get Free Quote
-                  </Button>
-                </Link>
-              </div>
+              <h2 className="mt-4 text-2xl sm:text-3xl font-semibold tracking-tight text-foreground">
+                Plan your perfect adventure
+              </h2>
+              <p className="mt-2 text-sm sm:text-base text-muted-foreground">
+                Get a personalized itinerary and free quote — fast, clear, and tailored.
+              </p>
             </div>
 
-            {/* Trust Chips */}
-            <TrustChips />
+            <div className="hidden md:flex items-center gap-2 text-xs text-muted-foreground">
+              <span className="rounded-full border border-border bg-white/70 px-3 py-1.5 backdrop-blur">
+                Local experts
+              </span>
+              <span className="rounded-full border border-border bg-white/70 px-3 py-1.5 backdrop-blur">
+                Flexible dates
+              </span>
+              <span className="rounded-full border border-border bg-white/70 px-3 py-1.5 backdrop-blur">
+                24/7 support
+              </span>
+            </div>
           </div>
+
+          {/* Card */}
+          <div className="relative overflow-hidden rounded-3xl border border-border bg-white/75 backdrop-blur-xl shadow-glow">
+            {/* Card accent line */}
+            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+
+            <div className="p-5 sm:p-7 lg:p-8">
+              {/* Form grid */}
+              <div className="grid gap-4 md:grid-cols-12 md:gap-4">
+                {/* Arrival Date */}
+                <div className="md:col-span-4">
+                  <label className="mb-2 block text-xs font-semibold tracking-wide text-foreground/80">
+                    Arrival Date
+                  </label>
+                  <div className="relative">
+                    <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                    <Input
+                      type="date"
+                      className="h-12 rounded-2xl pl-10 border border-border bg-white/80 focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:border-primary"
+                    />
+                  </div>
+                </div>
+
+                {/* Adults */}
+                <div className="md:col-span-3">
+                  <label className="mb-2 block text-xs font-semibold tracking-wide text-foreground/80">
+                    Adults
+                  </label>
+                  <div className="relative">
+                    <Users className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                    <Input
+                      type="number"
+                      min={1}
+                      defaultValue={2}
+                      className="h-12 rounded-2xl pl-10 border border-border bg-white/80 focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:border-primary"
+                    />
+                  </div>
+                </div>
+
+                {/* Children */}
+                <div className="md:col-span-3">
+                  <label className="mb-2 block text-xs font-semibold tracking-wide text-foreground/80">
+                    Children
+                  </label>
+                  <div className="relative">
+                    <Baby className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                    <Input
+                      type="number"
+                      min={0}
+                      defaultValue={0}
+                      className="h-12 rounded-2xl pl-10 border border-border bg-white/80 focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:border-primary"
+                    />
+                  </div>
+                </div>
+
+                {/* CTA */}
+                <div className="md:col-span-2">
+                  <label className="mb-2 block text-xs font-semibold tracking-wide text-transparent select-none">
+                    Action
+                  </label>
+
+                  <Link to="/contact" className="block">
+                    <Button className="group w-full h-12 rounded-2xl bg-primary text-primary-foreground hover:bg-primary/90 shadow-soft hover:shadow-glow transition-all">
+                      Get Free Quote
+                      <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+
+              {/* Divider */}
+              <div className="my-6 h-px w-full bg-gradient-to-r from-transparent via-border to-transparent" />
+
+              {/* Trust chips (kept) */}
+              <TrustChips />
+            </div>
+          </div>
+
+          {/* Optional micro-copy to connect to Hero */}
+          <p className="mt-4 text-xs text-muted-foreground">
+            Prefer a fully custom itinerary? Use “Get Free Quote” and tell us your style, budget, and travel dates.
+          </p>
         </div>
       </div>
     </section>

@@ -1,3 +1,4 @@
+// File: src/components/TravelInfoTiles.tsx
 import { FileText, Calendar, Package, DollarSign } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
