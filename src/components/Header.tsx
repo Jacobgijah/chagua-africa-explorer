@@ -80,7 +80,7 @@ const Header = () => {
           <div className="hidden lg:flex items-center space-x-4">
             <Button variant="ghost" size="sm" className="text-foreground hover:text-primary">
               <Phone className="w-4 h-4 mr-2" />
-              +255 000 000 000
+              +255 717 395 728
             </Button>
             <Link to="/contact">
               <Button className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold">
