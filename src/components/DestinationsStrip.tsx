@@ -1,15 +1,15 @@
 import { ArrowRight } from 'lucide-react';
-import serengetiImage from '@/assets/serengeti-migration.jpg';
-import zanzibarImage from '@/assets/zanzibar-beach.jpg';
-import kilimanjaroImage from '@/assets/kilimanjaro-sunrise.jpg';
-import heroImage from '@/assets/hero-safari.jpg';
+import serengetiImage from '@/assets/images/featuredTours/serengeti-migration.jpg';
+import zanzibarImage from '@/assets/images/DestinationsStrip/zanzibar.jpg';
+import kilimanjaroImage from '@/assets/images/DestinationsStrip/kilimanjaro-sunrise.jpg';
+import tanzaniaImage from '@/assets/images/DestinationsStrip/tanzania-destination.jpg';
 
 const destinations = [
   {
     id: 1,
     name: "Tanzania",
     description: "The heart of East Africa",
-    image: heroImage,
+    image: tanzaniaImage,
     tours: "25+ Tours"
   },
   {
