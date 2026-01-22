@@ -46,7 +46,7 @@ const Hero = () => {
               {/* Headline */}
               <h1 className="mt-6 text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-semibold tracking-tight text-white leading-[1.06] motion-safe:animate-fade-up [animation-delay:120ms]">
                 Discover
-                <span className="block mt-2 text-primary">Tanzania&apos;s</span>
+                <span className="block mt-2 text-white/95">Tanzania&apos;s</span>
                 <span className="block mt-2 text-white/95">Wild Majesty</span>
               </h1>
 
