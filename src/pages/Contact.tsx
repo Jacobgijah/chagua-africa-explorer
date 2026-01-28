@@ -12,7 +12,20 @@ import {
   Clock,
   ShieldCheck,
   Sparkles,
+  Loader2,
+  CheckCircle2,
+  AlertTriangle,
 } from "lucide-react";
+
+type FormState = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  message: string;
+  // honeypot (spam trap) — keep hidden in UI
+  website?: string;
+};
 
 const Contact = () => {
   const WHATSAPP = "255717395728";
@@ -21,23 +34,51 @@ const Contact = () => {
 
   const waLink = useMemo(() => `https://wa.me/${WHATSAPP}`, [WHATSAPP]);
 
-  const [form, setForm] = useState({
+  // Use your standard env var pattern (Vite)
+  // If VITE_STRAPI_URL is empty, it will use relative "/api/..." (works behind a proxy)
+  const STRAPI_BASE = (import.meta.env.VITE_STRAPI_URL || "").replace(/\/$/, "");
+  const CONTACT_SUBMIT_URL = STRAPI_BASE
+    ? `${STRAPI_BASE}/api/contact-submissions`
+    : `/api/contact-submissions`;
+
+  const [form, setForm] = useState<FormState>({
     firstName: "",
     lastName: "",
     email: "",
     phone: "",
     message: "",
+    website: "", // honeypot
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [notice, setNotice] = useState<
+    | { type: "success"; message: string }
+    | { type: "error"; message: string }
+    | null
+  >(null);
+
   const onChange =
-    (key: keyof typeof form) =>
+    (key: keyof FormState) =>
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
       setForm((p) => ({ ...p, [key]: e.target.value }));
 
-  const onSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const validate = () => {
+    const firstName = form.firstName.trim();
+    const lastName = form.lastName.trim();
+    const email = form.email.trim();
+    const message = form.message.trim();
 
-    // Optional: simple mailto fallback (keeps it working without backend)
+    if (!firstName) return "First name is required.";
+    if (!lastName) return "Last name is required.";
+    if (!email) return "Email is required.";
+    // simple email sanity check (frontend only)
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return "Please enter a valid email.";
+    if (!message) return "Message is required.";
+
+    return null;
+  };
+
+  const mailtoFallback = () => {
     const subject = encodeURIComponent("Trip planning request — Tanzania Wonderland");
     const body = encodeURIComponent(
       [
@@ -49,8 +90,82 @@ const Contact = () => {
         form.message,
       ].join("\n")
     );
-
     window.location.href = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
+  };
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setNotice(null);
+
+    // honeypot check (if filled, silently stop)
+    if ((form.website || "").trim()) {
+      setNotice({ type: "success", message: "Message sent. We’ll get back to you shortly." });
+      return;
+    }
+
+    const err = validate();
+    if (err) {
+      setNotice({ type: "error", message: err });
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const payload = {
+        data: {
+          firstName: form.firstName.trim(),
+          lastName: form.lastName.trim(),
+          email: form.email.trim(),
+          phone: form.phone.trim(),
+          message: form.message.trim(),
+        },
+      };
+
+      const res = await fetch(CONTACT_SUBMIT_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        // Try to read Strapi error payload
+        let msg = "Failed to send your message. Please try again.";
+        try {
+          const j = await res.json();
+          msg =
+            j?.error?.message ||
+            j?.error?.details?.errors?.[0]?.message ||
+            msg;
+        } catch {
+          // ignore
+        }
+        throw new Error(msg);
+      }
+
+      setNotice({
+        type: "success",
+        message: "Message sent successfully! We’ll reply within 24 hours.",
+      });
+
+      // clear form
+      setForm({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        message: "",
+        website: "",
+      });
+    } catch (error: any) {
+      setNotice({
+        type: "error",
+        message:
+          error?.message ||
+          "Could not reach our server. You can still contact us via email.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -150,7 +265,51 @@ const Contact = () => {
                 </div>
               </div>
 
+              {/* Notice */}
+              {notice && (
+                <div
+                  className={[
+                    "mt-6 rounded-2xl border p-4 text-sm",
+                    notice.type === "success"
+                      ? "border-emerald-200 bg-emerald-50 text-emerald-900"
+                      : "border-amber-200 bg-amber-50 text-amber-900",
+                  ].join(" ")}
+                >
+                  <div className="flex items-start gap-2">
+                    {notice.type === "success" ? (
+                      <CheckCircle2 className="mt-0.5 h-4 w-4" />
+                    ) : (
+                      <AlertTriangle className="mt-0.5 h-4 w-4" />
+                    )}
+                    <div className="flex-1">
+                      {notice.message}
+                      {notice.type === "error" && (
+                        <div className="mt-3">
+                          <button
+                            type="button"
+                            onClick={mailtoFallback}
+                            className="text-xs font-semibold underline underline-offset-4"
+                          >
+                            Or click here to send via email
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+
               <form className="mt-8 space-y-6" onSubmit={onSubmit}>
+                {/* honeypot field (hidden) */}
+                <input
+                  type="text"
+                  value={form.website || ""}
+                  onChange={onChange("website")}
+                  className="hidden"
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
+
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-foreground">First Name</label>
@@ -212,10 +371,20 @@ const Contact = () => {
 
                 <Button
                   type="submit"
-                  className="h-12 w-full rounded-2xl bg-primary text-primary-foreground hover:bg-primary/90 shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-safari)] transition-all"
+                  disabled={isSubmitting}
+                  className="h-12 w-full rounded-2xl bg-primary text-primary-foreground hover:bg-primary/90 shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-safari)] transition-all disabled:opacity-70"
                 >
-                  Send Message
-                  <ArrowRight className="ml-2 h-4 w-4" />
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      Send Message
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </>
+                  )}
                 </Button>
 
                 <p className="text-xs text-muted-foreground">
