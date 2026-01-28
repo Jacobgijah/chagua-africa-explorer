@@ -1,8 +1,11 @@
+// File: src/App.tsx
+import React from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import Index from "./pages/Index";
 import About from "./pages/About";
 import Tours from "./pages/Tours";
@@ -11,11 +14,31 @@ import TourDetails from "./pages/TourDetails";
 import Booking from "./pages/Booking";
 import ServicePage from "./pages/ServicePage";
 import Contact from "./pages/Contact";
+
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import WhatsAppFloat from "./components/WhatsAppFloat";
 
-const queryClient = new QueryClient();
+/**
+ * Pro React Query defaults:
+ * - staleTime: reduces refetch spam
+ * - retry: light retry for flaky networks
+ * - refetchOnWindowFocus: off for smoother UX (turn on if you want)
+ */
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 60_000, // 1 min
+      gcTime: 10 * 60_000, // 10 min (React Query v5 naming)
+      retry: 1,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: true,
+    },
+    mutations: {
+      retry: 0,
+    },
+  },
+});
 
 const App = () => (
   <QueryClientProvider client={queryClient}>

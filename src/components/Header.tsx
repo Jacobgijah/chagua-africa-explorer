@@ -30,11 +30,11 @@ const Header = () => {
                 className="w-24 h-24 rounded-full object-cover"
               />
               <div className="hidden sm:block leading-tight">
-                <h1 className="font-bold text-xl md:text-2xl text-secondary tracking-wide">
-                  TANZANIA
+                <h1 className="font-bold text-xl md:text-lg text-secondary tracking-wide">
+                  TANZANIA WONDERLAND
                 </h1>
                 <p className="text-sm md:text-base text-primary font-semibold tracking-[0.18em]">
-                  WONDERLAND
+                   Tours & Trekking
                 </p>
               </div>
             </Link>

@@ -11,6 +11,7 @@ import {
   MapPin,
   ArrowRight,
   X,
+  RefreshCcw,
 } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
@@ -24,32 +25,32 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import toursHero from '@/assets/images/GalleryPreview/gallery12.jpg';
+import toursHero from "@/assets/images/GalleryPreview/gallery12.jpg";
 
-import toursData from "@/data/tours.json";
+import { useTours } from "@/features/tours/hooks";
+import type { TourAttributes } from "@/features/tours/api";
+import { pickStrapiImageUrl } from "@/lib/strapi/media";
+import { entityAttrs, type StrapiEntity } from "@/lib/strapi/types";
 
-// Optional: if you have a hero image for this page, import it.
-// If not, remove the import and keep the gradient-only hero.
-// import toursHero from "@/assets/images/hero/tanzania-hero.jpg";
-
-type Tour = {
+type UITour = {
   id: number;
   slug: string;
   title: string;
   shortDescription: string;
   image: string;
   gallery?: string[];
-  duration: string; // e.g. "7 Days"
+  duration: string;
   highlights: string[];
-  price: string; // e.g. "From $2,850"
   rating: number;
-  reviews: number;
+  featured?: boolean;
+  sortOrder?: number;
   quickFacts?: {
     duration?: string;
     difficulty?: string;
     groupSize?: string;
     bestSeason?: string;
   };
+  publishedAt?: string;
 };
 
 const toStr = (v: unknown) => (v ?? "").toString();
@@ -61,32 +62,111 @@ const parseDays = (duration: string) => {
   return Number.isFinite(n) ? n : 0;
 };
 
-const parsePrice = (price: string) => {
-  const n = Number(toStr(price).replace(/[^\d]/g, ""));
-  return Number.isFinite(n) ? n : 0;
-};
+const cx = (...arr: Array<string | false | null | undefined>) =>
+  arr.filter(Boolean).join(" ");
+
+function normalizeHighlights(h: any): string[] {
+  if (Array.isArray(h)) return h.map((x) => toStr(x)).filter(Boolean);
+  return [];
+}
+
+function mapStrapiTourToUI(
+  entity: StrapiEntity<TourAttributes>,
+  fallbackImg: string
+): UITour {
+  const a = entityAttrs(entity) as any;
+  const id = (entity as any).id ?? a.id ?? 0;
+
+  const image = pickStrapiImageUrl(a.coverImage) || fallbackImg;
+
+  const gallery = Array.isArray(a.gallery)
+    ? (a.gallery
+        .map((g: any) => pickStrapiImageUrl(g))
+        .filter(Boolean) as string[])
+    : undefined;
+
+  const duration =
+    toStr(a.durationLabel).trim() ||
+    toStr(a?.quickFacts?.duration).trim() ||
+    "";
+
+  return {
+    id,
+    slug: toStr(a.slug),
+    title: toStr(a.title),
+    shortDescription: toStr(a.shortDescription),
+    image,
+    gallery,
+    duration,
+    highlights: normalizeHighlights(a.highlights),
+    rating: Number.isFinite(Number(a.rating)) ? Number(a.rating) : 0,
+    featured: Boolean(a.featured),
+    sortOrder: Number.isFinite(Number(a.sortOrder)) ? Number(a.sortOrder) : undefined,
+    quickFacts: a.quickFacts
+      ? {
+          duration: toStr(a.quickFacts.duration),
+          difficulty: toStr(a.quickFacts.difficulty),
+          groupSize: toStr(a.quickFacts.groupSize),
+          bestSeason: toStr(a.quickFacts.bestSeason),
+        }
+      : undefined,
+    publishedAt: toStr(a.publishedAt),
+  };
+}
+
+const SkeletonCard = () => (
+  <div
+    className={[
+      "group relative overflow-hidden rounded-3xl border border-border",
+      "bg-white/60 backdrop-blur-xl",
+      "shadow-[var(--shadow-soft)]",
+    ].join(" ")}
+  >
+    <div className="h-[280px] w-full bg-muted animate-pulse" />
+    <div className="p-5">
+      <div className="h-4 w-2/3 rounded bg-muted animate-pulse" />
+      <div className="mt-3 h-3 w-1/2 rounded bg-muted animate-pulse" />
+      <div className="mt-6 h-3 w-5/6 rounded bg-muted animate-pulse" />
+    </div>
+  </div>
+);
 
 const Tours = () => {
-  const tours = toursData as unknown as Tour[];
+  // Fetch ALL tours (client-side filter/sort for best UX parity with your design)
+  const { data, isLoading, error, refetch, isFetching } = useTours({
+    sort: "newest",
+    page: 1,
+    pageSize: 200,
+  });
+
+  const tours = useMemo(() => {
+    const rows = (data?.data ?? []) as Array<StrapiEntity<TourAttributes>>;
+    return rows.map((e) => mapStrapiTourToUI(e, toursHero));
+  }, [data]);
+
+  const totalCount = data?.meta?.pagination?.total ?? tours.length;
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [durationFilter, setDurationFilter] = useState<"all" | "short" | "medium" | "long">("all");
-  const [priceFilter, setPriceFilter] = useState<"all" | "budget" | "mid" | "luxury">("all");
-  const [sortBy, setSortBy] = useState<"featured" | "price-low" | "price-high" | "duration" | "rating">("featured");
+  const [durationFilter, setDurationFilter] = useState<
+    "all" | "short" | "medium" | "long"
+  >("all");
+  const [sortBy, setSortBy] = useState<"featured" | "duration" | "rating">(
+    "featured"
+  );
 
   const hasFilters =
     searchTerm.trim().length > 0 ||
     durationFilter !== "all" ||
-    priceFilter !== "all" ||
     sortBy !== "featured";
 
   const filteredAndSortedTours = useMemo(() => {
     const q = searchTerm.trim().toLowerCase();
 
-    let filtered = tours.filter((tour) => {
+    const filtered = tours.filter((tour) => {
       const title = tour.title?.toLowerCase() ?? "";
       const desc = tour.shortDescription?.toLowerCase() ?? "";
       const highlights = Array.isArray(tour.highlights) ? tour.highlights : [];
+
       const matchesSearch =
         !q ||
         title.includes(q) ||
@@ -100,42 +180,45 @@ const Tours = () => {
         (durationFilter === "medium" && days >= 6 && days <= 8) ||
         (durationFilter === "long" && days >= 9);
 
-      const price = parsePrice(tour.price);
-      const matchesPrice =
-        priceFilter === "all" ||
-        (priceFilter === "budget" && price > 0 && price < 2000) ||
-        (priceFilter === "mid" && price >= 2000 && price < 3000) ||
-        (priceFilter === "luxury" && price >= 3000);
-
-      return matchesSearch && matchesDuration && matchesPrice;
+      return matchesSearch && matchesDuration;
     });
 
     filtered.sort((a, b) => {
       switch (sortBy) {
-        case "price-low":
-          return parsePrice(a.price) - parsePrice(b.price);
-        case "price-high":
-          return parsePrice(b.price) - parsePrice(a.price);
         case "duration":
           return parseDays(a.duration) - parseDays(b.duration);
         case "rating":
           return (b.rating ?? 0) - (a.rating ?? 0);
-        default:
-          return 0; // featured
+        default: {
+          // Featured-first, then sortOrder asc, then publishedAt desc
+          const fa = a.featured ? 1 : 0;
+          const fb = b.featured ? 1 : 0;
+          if (fb !== fa) return fb - fa;
+
+          const soA = a.sortOrder ?? 9999;
+          const soB = b.sortOrder ?? 9999;
+          if (soA !== soB) return soA - soB;
+
+          const ta = a.publishedAt ? new Date(a.publishedAt).getTime() : 0;
+          const tb = b.publishedAt ? new Date(b.publishedAt).getTime() : 0;
+          return tb - ta;
+        }
       }
     });
 
     return filtered;
-  }, [tours, searchTerm, durationFilter, priceFilter, sortBy]);
+  }, [tours, searchTerm, durationFilter, sortBy]);
 
   return (
     <div className="min-h-screen bg-background">
-      {/* HERO (matches your premium/hero style) */}
+      {/* HERO */}
       <section className="relative overflow-hidden">
-        {/* Background */}
         <div className="absolute inset-0">
-          {/* If using an image, uncomment and import toursHero above */}
-          <img src={toursHero} alt="Tours hero" className="h-full w-full object-cover scale-105" />
+          <img
+            src={toursHero}
+            alt="Tours hero"
+            className="h-full w-full object-cover scale-105"
+          />
           <div className="absolute inset-0 bg-gradient-to-r from-secondary/95 via-secondary/70 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-t from-secondary via-secondary/40 to-transparent" />
           <div className="absolute -top-40 left-1/2 h-80 w-[52rem] -translate-x-1/2 rounded-full bg-primary/15 blur-3xl" />
@@ -181,7 +264,7 @@ const Tours = () => {
 
               <div className="mt-10 flex flex-wrap gap-3">
                 <Badge className="rounded-full bg-white/10 text-white border border-white/15 backdrop-blur">
-                  {tours.length} Experiences
+                  {isLoading ? "Loading…" : `${totalCount} Experiences`}
                 </Badge>
                 <Badge className="rounded-full bg-white/10 text-white border border-white/15 backdrop-blur">
                   Local Experts
@@ -193,11 +276,11 @@ const Tours = () => {
             </div>
           </div>
 
-          {/* Filter panel “floating” onto next section */}
+          {/* Filters */}
           <div className="container pb-10">
             <div className="mx-auto max-w-6xl">
               <div className="rounded-3xl border border-white/15 bg-white/10 backdrop-blur-xl p-5 sm:p-6 shadow-[var(--shadow-soft)]">
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-5">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
                   {/* Search */}
                   <div className="lg:col-span-2 relative">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-white/70 w-4 h-4" />
@@ -210,7 +293,10 @@ const Tours = () => {
                   </div>
 
                   {/* Duration */}
-                  <Select value={durationFilter} onValueChange={(v) => setDurationFilter(v as any)}>
+                  <Select
+                    value={durationFilter}
+                    onValueChange={(v) => setDurationFilter(v as any)}
+                  >
                     <SelectTrigger className="bg-white/10 border-white/15 text-white">
                       <SelectValue placeholder="Duration" />
                     </SelectTrigger>
@@ -222,19 +308,6 @@ const Tours = () => {
                     </SelectContent>
                   </Select>
 
-                  {/* Budget */}
-                  <Select value={priceFilter} onValueChange={(v) => setPriceFilter(v as any)}>
-                    <SelectTrigger className="bg-white/10 border-white/15 text-white">
-                      <SelectValue placeholder="Budget" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All Budgets</SelectItem>
-                      <SelectItem value="budget">Under $2,000</SelectItem>
-                      <SelectItem value="mid">$2,000–$3,000</SelectItem>
-                      <SelectItem value="luxury">$3,000+</SelectItem>
-                    </SelectContent>
-                  </Select>
-
                   {/* Sort */}
                   <Select value={sortBy} onValueChange={(v) => setSortBy(v as any)}>
                     <SelectTrigger className="bg-white/10 border-white/15 text-white">
@@ -242,48 +315,70 @@ const Tours = () => {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="featured">Featured</SelectItem>
-                      <SelectItem value="price-low">Price: Low to High</SelectItem>
-                      <SelectItem value="price-high">Price: High to Low</SelectItem>
                       <SelectItem value="duration">Duration</SelectItem>
                       <SelectItem value="rating">Highest Rated</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
 
-                {hasFilters && (
-                  <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+                <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+                  {hasFilters && (
                     <div className="text-sm text-white/75">
-                      Showing <span className="font-semibold text-white">{filteredAndSortedTours.length}</span>{" "}
+                      Showing{" "}
+                      <span className="font-semibold text-white">
+                        {filteredAndSortedTours.length}
+                      </span>{" "}
                       result(s)
                     </div>
+                  )}
+
+                  <div className="flex items-center gap-2">
                     <Button
                       variant="outline"
                       className="h-10 rounded-2xl border-white/20 bg-white/10 text-white hover:bg-white/15"
-                      onClick={() => {
-                        setSearchTerm("");
-                        setDurationFilter("all");
-                        setPriceFilter("all");
-                        setSortBy("featured");
-                      }}
+                      onClick={() => refetch()}
+                      disabled={isFetching}
                     >
-                      <X className="w-4 h-4 mr-2" />
-                      Clear filters
+                      <RefreshCcw className={cx("w-4 h-4 mr-2", isFetching && "animate-spin")} />
+                      Refresh
                     </Button>
+
+                    {hasFilters && (
+                      <Button
+                        variant="outline"
+                        className="h-10 rounded-2xl border-white/20 bg-white/10 text-white hover:bg-white/15"
+                        onClick={() => {
+                          setSearchTerm("");
+                          setDurationFilter("all");
+                          setSortBy("featured");
+                        }}
+                      >
+                        <X className="w-4 h-4 mr-2" />
+                        Clear filters
+                      </Button>
+                    )}
                   </div>
-                )}
+                </div>
+
+                {error ? (
+                  <div className="mt-4 rounded-2xl border border-white/20 bg-white/10 p-4 text-white/85">
+                    <div className="font-semibold">Failed to load tours</div>
+                    <div className="mt-1 text-sm text-white/70">{String(error)}</div>
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* TOURS GRID (image-first + hover details, consistent with your FeaturedTours style) */}
+      {/* GRID */}
       <section className="py-14 sm:py-16">
         <div className="container">
           <div className="mx-auto max-w-6xl">
             <div className="mb-8 flex items-center justify-between gap-4">
               <h2 className="text-2xl font-semibold tracking-tight text-foreground">
-                {filteredAndSortedTours.length}{" "}
+                {isLoading ? "Loading…" : `${filteredAndSortedTours.length}`}{" "}
                 {filteredAndSortedTours.length === 1 ? "Tour" : "Tours"} Found
               </h2>
 
@@ -293,7 +388,13 @@ const Tours = () => {
               </Button>
             </div>
 
-            {filteredAndSortedTours.length === 0 ? (
+            {isLoading ? (
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <SkeletonCard key={i} />
+                ))}
+              </div>
+            ) : filteredAndSortedTours.length === 0 ? (
               <div className="rounded-3xl border border-border bg-white/70 backdrop-blur-xl p-10 text-center shadow-[var(--shadow-soft)]">
                 <MapPin className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />
                 <h3 className="text-xl font-semibold">No tours found</h3>
@@ -307,7 +408,6 @@ const Tours = () => {
                     onClick={() => {
                       setSearchTerm("");
                       setDurationFilter("all");
-                      setPriceFilter("all");
                       setSortBy("featured");
                     }}
                   >
@@ -322,7 +422,10 @@ const Tours = () => {
                     key={tour.id}
                     initial={{ opacity: 0, y: 18 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.45, delay: Math.min(index * 0.05, 0.35) }}
+                    transition={{
+                      duration: 0.45,
+                      delay: Math.min(index * 0.05, 0.35),
+                    }}
                     className={[
                       "group relative overflow-hidden rounded-3xl border border-border",
                       "bg-white/60 backdrop-blur-xl",
@@ -330,7 +433,6 @@ const Tours = () => {
                       "transition-all duration-300 hover:-translate-y-1",
                     ].join(" ")}
                   >
-                    {/* Image */}
                     <div className="relative">
                       <img
                         src={tour.image}
@@ -341,19 +443,16 @@ const Tours = () => {
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
                       <div className="absolute inset-0 bg-[radial-gradient(60%_50%_at_50%_20%,rgba(255,255,255,0.12),transparent_70%)]" />
 
-                      {/* Chips */}
                       <div className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur-md">
                         <Clock className="h-4 w-4 text-white/85" />
-                        {tour.duration}
+                        {tour.duration || "—"}
                       </div>
 
                       <div className="absolute right-4 top-4 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur-md">
                         <Star className="h-4 w-4 text-accent fill-current" />
-                        {tour.rating}
-                        <span className="text-white/70 font-medium">({tour.reviews})</span>
+                        {tour.rating ? tour.rating.toFixed(1) : "—"}
                       </div>
 
-                      {/* Hover overlay: show primary details on image */}
                       <div className="absolute inset-0 opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 bg-gradient-to-t from-black/85 via-black/35 to-black/10">
                         <div className="absolute inset-x-0 bottom-0 p-5">
                           <div className="text-xl font-semibold text-white">{tour.title}</div>
@@ -361,23 +460,20 @@ const Tours = () => {
                             {tour.shortDescription}
                           </div>
 
-                          <div className="mt-4 flex flex-wrap gap-2">
-                            {(tour.highlights || []).slice(0, 3).map((h) => (
-                              <span
-                                key={h}
-                                className="rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[11px] font-medium text-white/85 backdrop-blur"
-                              >
-                                {h}
-                              </span>
-                            ))}
-                          </div>
-
-                          <div className="mt-5 flex items-end justify-between gap-4">
-                            <div>
-                              <div className="text-2xl font-semibold text-accent">{tour.price}</div>
-                              <div className="text-xs text-white/70">per person</div>
+                          {!!tour.highlights?.length && (
+                            <div className="mt-4 flex flex-wrap gap-2">
+                              {tour.highlights.slice(0, 3).map((h) => (
+                                <span
+                                  key={h}
+                                  className="rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[11px] font-medium text-white/85 backdrop-blur"
+                                >
+                                  {h}
+                                </span>
+                              ))}
                             </div>
+                          )}
 
+                          <div className="mt-5 flex items-center justify-end">
                             <Button
                               className="h-11 rounded-2xl bg-primary text-primary-foreground hover:bg-primary/90"
                               asChild
@@ -392,7 +488,6 @@ const Tours = () => {
                       </div>
                     </div>
 
-                    {/* Minimal body (kept short: image-first) */}
                     <div className="p-5">
                       <div className="flex items-center justify-between text-sm text-muted-foreground">
                         <div className="flex items-center">
@@ -406,8 +501,12 @@ const Tours = () => {
                       </div>
 
                       <div className="mt-3 flex items-center justify-between border-t border-border pt-3 text-sm text-muted-foreground">
-                        <span>{tour.reviews} reviews</span>
                         <span>{tour.quickFacts?.difficulty ?? "—"}</span>
+                        {tour.featured ? (
+                          <Badge variant="secondary" className="rounded-full">
+                            Featured
+                          </Badge>
+                        ) : null}
                       </div>
                     </div>
 
@@ -420,7 +519,7 @@ const Tours = () => {
         </div>
       </section>
 
-      {/* CTA (same premium system) */}
+      {/* CTA */}
       <section className="relative isolate overflow-hidden py-16">
         <div className="absolute inset-0 -z-10">
           <div className="absolute inset-0 bg-background" />
@@ -435,8 +534,8 @@ const Tours = () => {
               Need a custom itinerary?
             </h2>
             <p className="mt-4 text-base sm:text-lg text-muted-foreground">
-              Tell us your dates, interests, and budget. We’ll craft a tailor-made plan with clear logistics and fast
-              responses.
+              Tell us your dates, interests, and preferences. We’ll craft a tailor-made plan with clear logistics and
+              fast responses.
             </p>
 
             <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
